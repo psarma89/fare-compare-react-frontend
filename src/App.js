@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {connect} from 'react-redux';
+import {Switch, Route} from 'react-router-dom';
+import Login from './components/root/Login';
+import Profile from './components/home/Profile';
+import * as actions from './actions';
+import {testAPI} from './API.js';
 
 class App extends Component {
   render() {
+    // testAPI()
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Switch>
+          <Route exact path='/' render={() => {
+            return (this.props.loggedIn? <Profile /> : <Login />)
+          }}/>
+          <Route exact path='/login' render={()=> {
+            return (this.props.loggedIn? <Profile /> : <Login />)
+          }}/>
+        <Route exact path='/profile' render={()=> {
+            return (this.props.loggedIn? <Profile /> : <Login />)
+          }}/>
+        </Switch>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  loggedIn: !!state.auth.currentUser.id
+});
+
+export default connect(mapStateToProps, actions)(App);

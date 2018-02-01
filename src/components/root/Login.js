@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import withAuth from '../../hocs/withAuth';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 
@@ -8,7 +7,6 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      error: false,
       fields: {
         email: '',
         password: ''
@@ -31,7 +29,7 @@ class Login extends React.Component {
     const { fields } = this.state;
     return (
       <div>
-        {this.state.error ? <h1>Try Again</h1> : null}
+        {this.props.error ? <h1>{this.props.error}</h1> : null}
         <div className="ui form">
           <form onSubmit={this.handleSubmit}>
             <div className="ui field">
@@ -63,6 +61,10 @@ class Login extends React.Component {
   }
 }
 
-export default withRouter(connect(null, actions)(Login));
+const mapStateToProps = state => ({
+  error: state.auth.currentUser.error
+});
+
+export default withRouter(connect(mapStateToProps, actions)(Login));
 //
 // export default withRouter(withAuth(Login));

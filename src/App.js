@@ -7,8 +7,16 @@ import * as actions from './actions';
 import {testAPI} from './API.js';
 
 class App extends Component {
+
+  componentDidMount() {
+    if (localStorage.getItem('token')) {
+      this.props.fetchUser();
+    }
+  }
+
   render() {
     // testAPI()
+    // console.log(this.props)
     return (
       <div className="App">
         <Switch>

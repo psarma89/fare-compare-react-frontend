@@ -23,6 +23,38 @@ export const loginUser = (email, password, history) => dispatch => {
   });
 };
 
+export const updateUser = (email, password, history) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+
+  adapter.auth.update({ email, password }).then(user => {
+    if (user.email) {
+      localStorage.setItem('token', user.jwt);
+      dispatch({ type: 'SET_CURRENT_USER', user });
+      history.push('/profile');
+    }else {
+      dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+      history.push('/reset')
+    }
+
+  });
+};
+
+export const signupUser = (email, password, password_confirmation, history) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+
+  adapter.auth.signup({ email, password, password_confirmation }).then(user => {
+    if (user.email) {
+      localStorage.setItem('token', user.jwt);
+      dispatch({ type: 'SET_CURRENT_USER', user });
+      history.push('/profile');
+    }else {
+      dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+      history.push('/signup')
+    }
+
+  });
+};
+
 export const logoutUser = () => {
   localStorage.removeItem('token');
   return { type: 'LOGOUT_USER' };

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter, NavLink} from 'react-router-dom';
 import NavBar from '../root/NavBar';
 import * as actions from '../../actions';
 
-class Login extends React.Component {
+class Reset extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -23,7 +23,7 @@ class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { fields: { email, password } } = this.state;
-    this.props.loginUser(email, password, this.props.history);
+    this.props.updateUser(email, password, this.props.history);
   };
 
   render() {
@@ -44,7 +44,7 @@ class Login extends React.Component {
               />
             </div>
             <div className="ui field">
-              <label>Password</label>
+              <label>New Password</label>
               <input
                 name="password"
                 type="password"
@@ -53,13 +53,8 @@ class Login extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div>
-              <NavLink to="/reset">
-                Forgot Password
-              </NavLink>
-            </div>
             <button type="submit" className="ui basic green button">
-              Login
+              Update Password
             </button>
           </form>
 
@@ -73,6 +68,6 @@ const mapStateToProps = state => ({
   error: state.auth.currentUser.error
 });
 
-export default withRouter(connect(mapStateToProps, actions)(Login));
+export default withRouter(connect(mapStateToProps, actions)(Reset));
 //
 // export default withRouter(withAuth(Login));

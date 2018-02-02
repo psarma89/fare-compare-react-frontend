@@ -1,17 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { renderComponents } from '../../services/renderComponents';
+
 
 const NavBar = props => {
+
   return (
-    <div>
-      <NavLink to="/signup">
-        Sign Up
-      </NavLink>
-      <NavLink to="/">
-        Login
-      </NavLink>
-    </div>
+    renderComponents.nav.navComponents(props.url)
   );
 }
 
-export default NavBar;
+const mapStateToProps = (state,ownProps) => ({
+  url: ownProps.match.url
+});
+
+export default withRouter(connect(mapStateToProps)(NavBar));

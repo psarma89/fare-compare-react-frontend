@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
 import Login from './components/root/Login';
 import Profile from './components/home/Profile';
+import Signup from './components/home/Signup';
+import Reset from './components/home/Reset';
 import * as actions from './actions';
 import {testAPI} from './API.js';
 
@@ -26,8 +28,14 @@ class App extends Component {
           <Route exact path='/login' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Login />)
           }}/>
-        <Route exact path='/profile' render={()=> {
+          <Route exact path='/signup' render={()=> {
+            return (this.props.loggedIn? <Profile /> : <Signup />)
+          }}/>
+          <Route exact path='/profile' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Login />)
+          }}/>
+          <Route exact path='/reset' render={()=> {
+            return (this.props.loggedIn? <Profile /> : <Reset />)
           }}/>
         </Switch>
       </div>

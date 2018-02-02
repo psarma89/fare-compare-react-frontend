@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
 import Login from './components/root/Login';
-import Profile from './components/home/Profile';
+import Profile from './components/profile/Profile';
 import Signup from './components/home/Signup';
 import Reset from './components/home/Reset';
 import * as actions from './actions';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import NavBar from '../root/NavBar';
 import * as actions from '../../actions';
 

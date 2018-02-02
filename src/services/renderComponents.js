@@ -5,7 +5,7 @@ const navComponents = (url) => {
     return(
       <div className="ui massive inverted stackable menu">
         <div className="item">
-          <img src="/images/logo.png" />
+          <img src="/images/logo.png" alt=""/>
         </div>
         <a className="item" href="signup">Sign Up</a>
       </div>
@@ -14,7 +14,7 @@ const navComponents = (url) => {
     return(
       <div className="ui massive inverted stackable menu">
         <div className="item">
-          <img src="/images/logo.png" />
+          <img src="/images/logo.png" alt=""/>
         </div>
         <a className="item" href="/login">Log In</a>
       </div>
@@ -23,12 +23,14 @@ const navComponents = (url) => {
     return(
       <div className="ui massive inverted stackable menu">
         <div className="item">
-          <img src="/images/logo.png" />
+          <img src="/images/logo.png" alt=""/>
         </div>
         <a className="item" href="/login">Log In</a>
         <a className="item" href="/signup">Sign Up</a>
       </div>
     )
+  }else {
+    return(null)
   }
 }
 

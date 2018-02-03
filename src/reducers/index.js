@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {} };
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -17,8 +17,19 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
+const mapReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'SET_LOCATION':
+      const { lat, lng } = action.location;
+      return { ...state, currentLocation: { lat, lng }};
+    default:
+      return state;
+  }
+};
+
 const rootReducer =  combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  map: mapReducer
 });
 
 export default rootReducer;

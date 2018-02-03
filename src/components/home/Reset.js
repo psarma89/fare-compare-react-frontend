@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
-import NavBar from '../root/NavBar';
+import NavBar from '../common/NavBar';
 import * as actions from '../../actions';
 
 class Reset extends React.Component {

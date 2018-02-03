@@ -1,5 +1,15 @@
 import { adapter } from '../services';
 
+export const getLocation = () => dispatch => {
+  if (navigator && navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const coords = pos.coords;
+      const location = {lat: coords.latitude, lng: coords.longitude}
+      dispatch({ type: 'SET_LOCATION', location });
+    })
+  }
+};
+
 export const fetchUser = () => dispatch => {
   dispatch({ type: 'ASYNC_START' });
   adapter.auth.getCurrentUser().then(user => {

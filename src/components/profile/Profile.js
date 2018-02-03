@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import withAuth from '../../hocs/withAuth';
-import { NavLink } from 'react-router-dom';
-import SideBar from './SideBar';
-import Map from './Map';
+import { connect } from 'react-redux';
+import { withRouter} from 'react-router-dom';
+import * as actions from '../../actions';
+import TopMenu from '../common/TopMenu';
+import MenuSearch from '../common/MenuSearch';
+import SideBar from '../common/SideBar';
+import {renderComponents} from '../../services/renderComponents';
 
-const Profile = props => {
+class Profile extends Component {
+  state = { visible: false }
 
-  return (
-    <div>
-      <SideBar />
-    </div>
-  );
-};
+  toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
-export default withAuth(Profile);
+  render() {
+    const { visible } = this.state
+
+    return (
+      <div>
+        <TopMenu toggleVisibility={this.toggleVisibility} menuSearch={<MenuSearch />}/>
+        <SideBar visible={visible} component={renderComponents.map.mapComponent()} logoutUser={this.props.logoutUser}/>
+      </div>
+    )
+  }
+}
+
+// const mapStateToProps = state => ({
+//   loggedIn: !!state.auth.currentUser.id
+// });
+
+export default withAuth(withRouter(connect(null, actions)(Profile)));

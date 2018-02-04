@@ -1,7 +1,9 @@
 import { adapter } from '../services';
 
 export const getLocation = () => dispatch => {
+
   if (navigator && navigator.geolocation) {
+    dispatch({ type: 'ASYNC_START' });
     navigator.geolocation.getCurrentPosition((pos) => {
       const coords = pos.coords;
       const location = {lat: coords.latitude, lng: coords.longitude}
@@ -68,4 +70,19 @@ export const signupUser = (email, password, password_confirmation, history) => d
 export const logoutUser = () => {
   localStorage.removeItem('token');
   return { type: 'LOGOUT_USER' };
+};
+
+export const postSearchData = (search, history) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+  adapter.post.postSearch({address: search}).then(addresses => {
+    dispatch({ type: 'POST_SEARCH', addresses });
+    // history.push('/results')
+  });
+};
+
+export const getSearchData = () => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+  adapter.post.getSearches().then(addresses => {
+    dispatch({ type: 'SET_SEARCH_DATA', addresses });
+  });
 };

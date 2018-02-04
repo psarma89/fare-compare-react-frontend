@@ -17,7 +17,7 @@ const getCurrentUser = () => {
 };
 
 const login = data => {
-  return fetch(`${API_ROOT}/auth/`, {
+  return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
     headers,
     body: JSON.stringify(data)
@@ -40,11 +40,33 @@ const signup = data => {
   }).then(res => res.json());
 };
 
+const postSearch = data => {
+  const token = localStorage.getItem('token');
+  return fetch(`${API_ROOT}/searches`, {
+    method: 'POST',
+    headers: { Authorization: token, 'Content-Type': 'application/json',
+    'Accepts': 'application/json'},
+    body: JSON.stringify(data)
+  }).then(res => res.json());
+};
+
+const getSearches = () => {
+  const token = localStorage.getItem('token');
+  return fetch(`${API_ROOT}/searches`, {
+    method: 'GET',
+    headers: { Authorization: token },
+  }).then(res => res.json());
+};
+
 export const adapter = {
   auth: {
     login,
     signup,
     update,
     getCurrentUser
+  },
+  post: {
+    postSearch,
+    getSearches
   }
 };

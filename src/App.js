@@ -7,6 +7,7 @@ import Signup from './components/home/Signup';
 import Reset from './components/home/Reset';
 import FullSearch from './components/search/FullSearch';
 import LaterSearch from './components/search/LaterSearch';
+import Results from './components/results/Results';
 import * as actions from './actions';
 import {testAPI} from './API.js';
 
@@ -28,23 +29,26 @@ class App extends Component {
           <Route exact path='/' render={() => {
             return (this.props.loggedIn? <Profile /> : <Login />)
           }}/>
-        <Route exact path='/login' render={()=> {
+          <Route exact path='/login' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Login />)
           }}/>
-        <Route exact path='/signup' render={()=> {
+          <Route exact path='/signup' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Signup />)
           }}/>
-        <Route exact path='/search' render={()=> {
-              return (this.props.loggedIn? <FullSearch /> : <Login />)
+          <Route exact path='/search' render={()=> {
+            return (this.props.loggedIn? <FullSearch /> : <Login />)
           }}/>
-        <Route exact path='/later' render={()=> {
-              return (this.props.loggedIn? <LaterSearch /> : <Login />)
-        }}/>
-        <Route exact path='/profile' render={()=> {
+          <Route exact path='/later' render={()=> {
+            return (this.props.loggedIn? <LaterSearch /> : <Login />)
+          }}/>
+          <Route exact path='/profile' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Login />)
           }}/>
-        <Route exact path='/reset' render={()=> {
+          <Route exact path='/reset' render={()=> {
             return (this.props.loggedIn? <Profile /> : <Reset />)
+          }}/>
+        <Route exact path='/results' render={()=> {
+            return (this.props.loggedIn? <Results /> : <Login />)
           }}/>
         </Switch>
       </div>

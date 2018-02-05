@@ -1,4 +1,5 @@
 import { adapter } from '../services';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 export const getLocation = () => dispatch => {
 
@@ -72,7 +73,7 @@ export const logoutUser = () => {
   return { type: 'LOGOUT_USER' };
 };
 
-export const postSearchData = (search, history) => dispatch => {
+export const postSearchData = (search) => dispatch => {
   dispatch({ type: 'ASYNC_START' });
   adapter.post.postSearch({address: search}).then(addresses => {
     dispatch({ type: 'POST_SEARCH', addresses });
@@ -84,5 +85,41 @@ export const getSearchData = () => dispatch => {
   dispatch({ type: 'ASYNC_START' });
   adapter.post.getSearches().then(addresses => {
     dispatch({ type: 'SET_SEARCH_DATA', addresses });
+  });
+};
+
+export const updateSource = (startAddress, currentLocation) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+  geocodeByAddress(startAddress)
+  .then(results => getLatLng(results[0]))
+  .then(source => {
+    postSearchData(startAddress)
+    dispatch({type: 'SET_SOURCE_SEARCH', source, startAddress})
+  })
+  .catch(error => {
+    dispatch({type: 'SET_SOURCE_DEFAULT', currentLocation})
+  })
+}
+
+export const updateDestination = (endAddress, history) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+  geocodeByAddress(endAddress)
+  .then(results => getLatLng(results[0]))
+  .then(destination => {
+    postSearchData(endAddress)
+    dispatch({type: 'SET_DESTINATION_SEARCH', destination, endAddress})
+    history.push('/results')
+  })
+  .catch(error => {
+    dispatch({type: 'SET_DESTINATION_ERROR'})
+    history.push('/search')
+  })
+};
+
+export const getUberData = (source, destination) => dispatch => {
+  dispatch({ type: 'ASYNC_START' });
+  adapter.uber.getUberApiData(source, destination).then(uberResults => {
+    console.log(uberResults)
+    dispatch({ type: 'SET_UBER_DATA', uberResults });
   });
 };

@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import * as actions from '../../actions';
 import { Icon} from 'semantic-ui-react';
 
 class SearchForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { source: '', destination: '' }
+    this.state = { startAddress: '', endAddress: ''}
   }
 
   componentDidMount(){
@@ -17,21 +17,11 @@ class SearchForm extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault()
-    const {source, destination} = this.state
-    const {postSearchData, history} = this.props
+    const {startAddress, endAddress} = this.state
+    const {updateSource, updateDestination, currentLocation, history} = this.props
 
-    postSearchData(source, history)
-    postSearchData(destination, history)
-
-    geocodeByAddress(source)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Source', latLng))
-      .catch(error => console.error('Error', error))
-
-    geocodeByAddress(destination)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Destination', latLng))
-      .catch(error => console.error('Error', error))
+    updateSource(startAddress, currentLocation)
+    updateDestination(endAddress, history)
 
   }
 
@@ -40,18 +30,20 @@ class SearchForm extends Component {
     const address = event.target.parentNode.querySelector('p').innerText
     switch (selectedButton) {
       case "source":
-        this.setState({source: address})
+        this.setState({startAddress: address})
         break;
       case "destination":
-        this.setState({destination: address})
+        this.setState({endAddress: address})
         break;
       default:
     }
   }
 
   render() {
-    const {source, destination} = this.state
-    const {addresses} = this.props
+    // console.log(this.props)
+    // console.log(this.state)
+    const {startAddress, endAddress} = this.state
+    const {addresses, search} = this.props
 
     const cssClasses = {
       root: 'form-group',
@@ -60,14 +52,14 @@ class SearchForm extends Component {
     }
 
     const inputPropsSource = {
-      value: source,
-      onChange: (address) => this.setState({ source: address }),
+      value: startAddress,
+      onChange: (address) => this.setState({ startAddress: address }),
       placeholder: 'current location'
     }
 
     const inputPropsDestination = {
-      value: destination,
-      onChange: (address) => this.setState({ destination: address }),
+      value: endAddress,
+      onChange: (address) => this.setState({ endAddress: address }),
       placeholder: 'Search Destination ...'
     }
 
@@ -89,8 +81,10 @@ class SearchForm extends Component {
           <PlacesAutocomplete inputProps={inputPropsSource} classNames={cssClasses}/>
           <label>Destination</label>
           <PlacesAutocomplete inputProps={inputPropsDestination} classNames={cssClasses}/>
+          {search.error ? <p>{search.error}</p>: null}
           <button type="submit">Submit</button>
         </form>
+        <h3>Recent Searches</h3>
         {previousSearches}
       </div>
     )
@@ -98,7 +92,9 @@ class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  addresses: state.post.addresses
+  addresses: state.post.savedAddresses,
+  currentLocation: state.map.currentLocation,
+  search: state.loc.search
 });
 
 export default withRouter(connect(mapStateToProps, actions)(SearchForm))

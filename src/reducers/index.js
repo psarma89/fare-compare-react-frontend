@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, addresses: []};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {} };
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}};
     default:
       return state;
   }
@@ -28,12 +28,28 @@ const mapReducer = (state = initialState, action) => {
 };
 
 const postReducer = (state = initialState, action) => {
-  const addresses = action.addresses
+  const savedAddresses = action.addresses
   switch (action.type) {
     case 'POST_SEARCH':
-      return { ...state, addresses};
+      return { ...state, savedAddresses};
     case 'SET_SEARCH_DATA':
-      return { ...state, addresses};
+      return { ...state, savedAddresses};
+    default:
+      return state;
+  }
+};
+
+const locReducer = (state = initialState, action) => {
+
+  switch (action.type) {
+    case 'SET_SOURCE_SEARCH':
+      return { ...state, search: {...state.search, startAddress: action.startAddress, source: action.source, error: ''}};
+    case 'SET_DESTINATION_SEARCH':
+      return { ...state, search: {...state.search, endAddress: action.endAddress, destination: action.destination, error: ''}};
+    case 'SET_SOURCE_DEFAULT':
+      return { ...state, search: {...state.search, startAddress: 'current location', source: action.currentLocation, error: ''}};
+    case 'SET_DESTINATION_ERROR':
+      return { ...state, search: {...state.search, error: 'Destination Not Found. Please Enter Valid Destination'}};
     default:
       return state;
   }
@@ -42,7 +58,8 @@ const postReducer = (state = initialState, action) => {
 const rootReducer =  combineReducers({
   auth: authReducer,
   map: mapReducer,
-  post: postReducer
+  post: postReducer,
+  loc: locReducer
 });
 
 export default rootReducer;

@@ -1,8 +1,15 @@
 const API_ROOT = `http://localhost:3000/api/v1`;
+const UBER_ROOT = `https://api.uber.com/v1.2`;
 
 const headers = {
   'Content-Type': 'application/json',
   'Accepts': 'application/json'
+};
+
+const uberHeaders = {
+  'Authorization': 'Token tCPHcqEtRrruUOc5VZMFT7BVOafEu2W_dYyM2akV',
+  'Accept-Language': 'en_US',
+  'Content-Type': 'application/json'
 };
 
 const getWithToken = url => {
@@ -58,6 +65,13 @@ const getSearches = () => {
   }).then(res => res.json());
 };
 
+const getUberApiData = (source, destination) => {
+  return fetch(`${UBER_ROOT}/estimates/price?start_latitude=${source.lat}&start_longitude=${source.lng}&end_latitude=${destination.lat}&end_longitude=${destination.lng}`, {
+    method: 'GET',
+    headers: uberHeaders
+  }).then(res => res.json());
+}
+
 export const adapter = {
   auth: {
     login,
@@ -68,5 +82,8 @@ export const adapter = {
   post: {
     postSearch,
     getSearches
+  },
+  uber: {
+    getUberApiData
   }
 };

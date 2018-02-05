@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
+import {Redirect} from 'react-router'
 import Login from './components/home/Login';
 import Profile from './components/profile/Profile';
 import Signup from './components/home/Signup';
@@ -23,33 +24,37 @@ class App extends Component {
   render() {
     // testAPI()
     // console.log(this.props)
+    const {error, source, destination} = this.props.search
+    const {loggedIn} = this.props
+
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' render={() => {
-            return (this.props.loggedIn? <Profile /> : <Login />)
-          }}/>
-          <Route exact path='/login' render={()=> {
-            return (this.props.loggedIn? <Profile /> : <Login />)
-          }}/>
           <Route exact path='/signup' render={()=> {
-            return (this.props.loggedIn? <Profile /> : <Signup />)
+            return (loggedIn? <Redirect to='/profile'/> : <Signup />)
           }}/>
           <Route exact path='/search' render={()=> {
-            return (this.props.loggedIn? <FullSearch /> : <Login />)
+            return (loggedIn? <FullSearch /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/later' render={()=> {
-            return (this.props.loggedIn? <LaterSearch /> : <Login />)
-          }}/>
-          <Route exact path='/profile' render={()=> {
-            return (this.props.loggedIn? <Profile /> : <Login />)
+            return (loggedIn? <LaterSearch /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/reset' render={()=> {
-            return (this.props.loggedIn? <Profile /> : <Reset />)
+            return (loggedIn? <Redirect to='/profile'/> : <Reset />)
           }}/>
-        <Route exact path='/results' render={()=> {
-            return (this.props.loggedIn? <Results /> : <Login />)
+          <Route exact path='/results' render={()=> {
+            return (loggedIn ? <Results /> : <Redirect to='/search'/>)
           }}/>
+          <Route exact path='/profile' render={()=> {
+            return (loggedIn? <Profile /> : <Redirect to='/login'/>)
+          }}/>
+          <Route exact path='/login' render={()=> {
+            return (loggedIn? <Redirect to='/profile'/> : <Login />)
+          }}/>
+          <Route exact path='/' render={() => {
+            return (loggedIn? <Redirect to='/profile'/> : <Redirect to='/login'/>)
+          }}/>
+
         </Switch>
       </div>
     );
@@ -57,7 +62,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: !!state.auth.currentUser.id
+  loggedIn: !!state.auth.currentUser.id,
+  search: state.loc.search
 });
 
 export default connect(mapStateToProps, actions)(App);

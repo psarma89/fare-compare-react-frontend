@@ -8,4 +8,5 @@ export const testAPI = () => {
 
   fetch('https://api.lyft.com/v1/cost?start_lat=37.7763&start_lng=-122.3918&end_lat=37.7972&end_lng=-122.4533', {method: 'GET', headers: {'Authorization': 'Bearer 6lKymAETJscXPbFbID9+vU32drXfImUyHOkJIUgl/lTzLRg0f0sBk21mQ1oaQYhs/sxjdUqi2d+SG7j2NVtxuT20x6VgvYYe2oW5X9TuzpuWYTtVm1orGRs='}}).then(resp => resp.json()).then(lyft => console.log('Lyft estimates', lyft))
 
+  fetch('https://api.taxifarefinder.com/fare?key=fEfaswEWrUZ4&origin=42.368025,-71.022155&destination=42.362571,-71.055543').then(resp => resp.json()).then(output => console.log(output))
 }

@@ -5,6 +5,7 @@ import { withRouter} from 'react-router-dom';
 import * as actions from '../../actions';
 import TopMenu from '../common/TopMenu';
 import SideBar from '../common/SideBar';
+import ResultsView from './ResultsView'
 
 
 class Results extends Component{
@@ -23,7 +24,7 @@ class Results extends Component{
     return(
       <div>
         <TopMenu toggleVisibility={this.toggleVisibility} />
-        <SideBar visible={visible} component={<h1>Search Results</h1>} logoutUser={this.props.logoutUser}/>
+        <SideBar visible={visible} component={<ResultsView />} logoutUser={this.props.logoutUser}/>
       </div>
     )
   }

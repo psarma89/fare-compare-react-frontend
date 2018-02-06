@@ -18,7 +18,7 @@ class SearchForm extends Component {
   handleFormSubmit = (event) => {
     event.preventDefault()
     const {startAddress, endAddress} = this.state
-    const {updateSource, updateDestination, currentLocation, history} = this.props
+    const {updateSource, updateDestination, postSearchData, currentLocation, history} = this.props
 
     updateSource(startAddress, currentLocation)
     updateDestination(endAddress, history)
@@ -42,6 +42,7 @@ class SearchForm extends Component {
   render() {
     // console.log(this.props)
     // console.log(this.state)
+
     const {startAddress, endAddress} = this.state
     const {addresses, search} = this.props
 
@@ -78,9 +79,9 @@ class SearchForm extends Component {
       <div>
         <form onSubmit={this.handleFormSubmit}>
           <label>Source</label>
-          <PlacesAutocomplete inputProps={inputPropsSource} classNames={cssClasses}/>
+          <PlacesAutocomplete inputProps={inputPropsSource} classNames={cssClasses} />
           <label>Destination</label>
-          <PlacesAutocomplete inputProps={inputPropsDestination} classNames={cssClasses}/>
+          <PlacesAutocomplete inputProps={inputPropsDestination} classNames={cssClasses} />
           {search.error ? <p>{search.error}</p>: null}
           <button type="submit">Submit</button>
         </form>

@@ -93,7 +93,6 @@ export const updateSource = (startAddress, currentLocation) => dispatch => {
   geocodeByAddress(startAddress)
   .then(results => getLatLng(results[0]))
   .then(source => {
-    postSearchData(startAddress)
     dispatch({type: 'SET_SOURCE_SEARCH', source, startAddress})
   })
   .catch(error => {
@@ -106,7 +105,6 @@ export const updateDestination = (endAddress, history) => dispatch => {
   geocodeByAddress(endAddress)
   .then(results => getLatLng(results[0]))
   .then(destination => {
-    postSearchData(endAddress)
     dispatch({type: 'SET_DESTINATION_SEARCH', destination, endAddress})
     history.push('/results')
   })

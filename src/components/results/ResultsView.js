@@ -18,14 +18,24 @@ class ResultsView extends Component {
 
   componentDidMount(){
     const {source, destination} = this.props.search
-    this.props.getUberPriceEstimates(source, destination)
+    const {startAddress, endAddress} = this.props.search
+    const {postSearchData, getUberPriceEstimates} = this.props
+
+    getUberPriceEstimates(source, destination)
+    if (startAddress !== 'current location') {
+      postSearchData(startAddress)
+    }
+    postSearchData(endAddress)
+
   }
 
   componentWillReceiveProps(nextProps){
     const {uberPrice} = nextProps.results
 
-    const data = adapter.uber.formatUberPriceEstimates(uberPrice.prices)
-    this.setState({data})
+    if (uberPrice.prices) {
+      const data = adapter.uber.formatUberPriceEstimates(uberPrice.prices)
+      this.setState({data})      
+    }
 
   }
 

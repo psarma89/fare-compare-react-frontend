@@ -31,28 +31,28 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route exact path='/signup' render={()=> {
-            return (loggedIn? <Redirect to='/profile'/> : <Signup />)
+            return (loggedIn? <Profile />: <Signup />)
           }}/>
           <Route exact path='/search' render={()=> {
-            return (loggedIn? <FullSearch /> : <Redirect to='/login'/>)
+            return (loggedIn? <FullSearch /> : <Login />)
           }}/>
           <Route exact path='/later' render={()=> {
-            return (loggedIn? <LaterSearch /> : <Redirect to='/login'/>)
+            return (loggedIn? <LaterSearch /> : <Login />)
           }}/>
           <Route exact path='/reset' render={()=> {
-            return (loggedIn? <Redirect to='/profile'/> : <Reset />)
+            return (loggedIn? <Profile /> : <Reset />)
           }}/>
           <Route exact path='/results' render={()=> {
-            return (loggedIn ? <Results /> : <Redirect to='/search'/>)
+            return (loggedIn && !error && source && destination? <Results /> : <FullSearch />)
           }}/>
           <Route exact path='/profile' render={()=> {
-            return (loggedIn? <Profile /> : <Redirect to='/login'/>)
+            return (loggedIn? <Profile /> : <Login />)
           }}/>
           <Route exact path='/login' render={()=> {
-            return (loggedIn? <Redirect to='/profile'/> : <Login />)
+            return (loggedIn? <Profile /> : <Login />)
           }}/>
           <Route exact path='/' render={() => {
-            return (loggedIn? <Redirect to='/profile'/> : <Redirect to='/login'/>)
+            return (loggedIn? <Profile /> : <Login />)
           }}/>
 
         </Switch>

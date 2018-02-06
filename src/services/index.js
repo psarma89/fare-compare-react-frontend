@@ -65,11 +65,24 @@ const getSearches = () => {
   }).then(res => res.json());
 };
 
-const getUberApiData = (source, destination) => {
+const getUberPriceData = (source, destination) => {
   return fetch(`${UBER_ROOT}/estimates/price?start_latitude=${source.lat}&start_longitude=${source.lng}&end_latitude=${destination.lat}&end_longitude=${destination.lng}`, {
     method: 'GET',
     headers: uberHeaders
   }).then(res => res.json());
+}
+
+const formatUberPriceEstimates = (prices) => {
+  return prices.map(uber => {
+    return {
+      service: uber.display_name,
+      min: `$${uber.low_estimate}`,
+      max: `$${uber.high_estimate}`,
+      duration: (uber.duration/60).toFixed(2),
+      distance: uber.distance,
+      driver: `$${(uber.low_estimate * .75).toFixed(2)} - $${(uber.high_estimate * .75).toFixed(2)}`
+    }
+  })
 }
 
 export const adapter = {
@@ -84,6 +97,7 @@ export const adapter = {
     getSearches
   },
   uber: {
-    getUberApiData
+    getUberPriceData,
+    formatUberPriceEstimates
   }
 };

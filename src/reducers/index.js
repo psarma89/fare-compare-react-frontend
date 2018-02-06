@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrice: ''}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}};
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrice: ''}};
     default:
       return state;
   }
@@ -55,11 +55,21 @@ const locReducer = (state = initialState, action) => {
   }
 };
 
+const ubeReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'SET_UBER_PRICE_DATA':
+      return { ...state, results: {...state.results, uberPrice: action.uberPrice}};
+    default:
+      return state;
+  }
+};
+
 const rootReducer =  combineReducers({
   auth: authReducer,
   map: mapReducer,
   post: postReducer,
-  loc: locReducer
+  loc: locReducer,
+  res: ubeReducer
 });
 
 export default rootReducer;

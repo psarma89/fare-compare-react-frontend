@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import {Redirect} from 'react-router'
 import Login from './components/home/Login';
 import Profile from './components/profile/Profile';
@@ -23,7 +23,7 @@ class App extends Component {
 
   render() {
     // testAPI()
-    // console.log(this.props)
+
     const {error, source, destination} = this.props.search
     const {loggedIn} = this.props
 
@@ -31,28 +31,28 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route exact path='/signup' render={()=> {
-            return (loggedIn? <Profile />: <Signup />)
+            return (loggedIn? <Redirect to='/profile'/>: <Signup />)
           }}/>
           <Route exact path='/search' render={()=> {
-            return (loggedIn? <FullSearch /> : <Login />)
+            return (loggedIn? <FullSearch /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/later' render={()=> {
-            return (loggedIn? <LaterSearch /> : <Login />)
+            return (loggedIn? <LaterSearch /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/reset' render={()=> {
-            return (loggedIn? <Profile /> : <Reset />)
+            return (loggedIn? <Redirect to='/profile'/> : <Reset />)
           }}/>
           <Route exact path='/results' render={()=> {
-            return (loggedIn && !error && source && destination? <Results /> : <FullSearch />)
+            return (loggedIn && !error && source && destination? <Results /> : <Redirect to='/search'/>)
           }}/>
           <Route exact path='/profile' render={()=> {
-            return (loggedIn? <Profile /> : <Login />)
+            return (loggedIn? <Profile /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/login' render={()=> {
-            return (loggedIn? <Profile /> : <Login />)
+            return (loggedIn? <Redirect to='/profile'/>: <Login />)
           }}/>
-          <Route exact path='/' render={() => {
-            return (loggedIn? <Profile /> : <Login />)
+          <Route exact path='/' render={()=> {
+            return (loggedIn? <Redirect to='/profile'/>: <Redirect to='/login'/>)
           }}/>
 
         </Switch>
@@ -62,8 +62,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: !!state.auth.currentUser.id,
+  loggedIn: localStorage.getItem('token'),
   search: state.loc.search
 });
 
-export default connect(mapStateToProps, actions)(App);
+export default withRouter(connect(mapStateToProps, actions)(App));

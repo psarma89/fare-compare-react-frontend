@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import { geocodeByAddress } from 'react-places-autocomplete';
 import * as actions from '../../actions';
 import { Icon} from 'semantic-ui-react';
 
 class SearchForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { startAddress: '', endAddress: ''}
+    this.state = { startAddress: '', endAddress: '', error: ''}
   }
 
   componentDidMount(){
@@ -18,10 +19,27 @@ class SearchForm extends Component {
   handleFormSubmit = (event) => {
     event.preventDefault()
     const {startAddress, endAddress} = this.state
-    const {updateSource, updateDestination, postSearchData, currentLocation, history} = this.props
+    const {updateSource, updateDestination, currentLocation, history} = this.props
 
-    updateSource(startAddress, currentLocation)
-    updateDestination(endAddress, history)
+    geocodeByAddress(startAddress).then(results => {
+      if (results.length < 2) {
+        updateSource(startAddress, currentLocation)
+      }else {
+        updateSource('', currentLocation)
+      }
+    }).catch(error => updateSource('', currentLocation))
+
+    // updateSource(startAddress, currentLocation)
+
+    geocodeByAddress(endAddress).then(results => {
+      if (results.length < 2) {
+        updateDestination(endAddress, history)
+      }else {
+        updateDestination('', history)
+      }
+    }).catch(error => updateDestination('', history))
+
+    // updateDestination(endAddress, history)
 
   }
 
@@ -42,8 +60,7 @@ class SearchForm extends Component {
   render() {
     // console.log(this.props)
     // console.log(this.state)
-
-    const {startAddress, endAddress} = this.state
+    const {startAddress, endAddress, error} = this.state
     const {addresses, search} = this.props
 
     const cssClasses = {

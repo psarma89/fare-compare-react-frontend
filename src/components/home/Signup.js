@@ -34,6 +34,7 @@ class Signup extends React.Component {
       <div>
         <NavBar />
         {this.props.error ? <h1>{this.props.error}</h1> : null}
+        <h2>Sign Up Page</h2>
         <div className="ui form">
           <form onSubmit={this.handleSubmit}>
             <div className="ui field">

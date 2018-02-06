@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import withAuth from '../../hocs/withAuth';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
 import * as actions from '../../actions';
@@ -31,4 +30,4 @@ class Results extends Component{
 
 }
 
-export default withAuth(withRouter(connect(null, actions)(Results)));
+export default withRouter(connect(null, actions)(Results));

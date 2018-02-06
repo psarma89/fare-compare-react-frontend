@@ -15,6 +15,7 @@ class FullSearch extends Component{
       visible: false
     }
   }
+
   toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
   render(){
@@ -29,4 +30,4 @@ class FullSearch extends Component{
   }
 }
 
-export default withAuth(withRouter(connect(null, actions)(FullSearch)));
+export default withRouter(connect(null, actions)(FullSearch));

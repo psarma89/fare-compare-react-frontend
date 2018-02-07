@@ -17,26 +17,29 @@ class ResultsView extends Component {
   }
 
   componentDidMount(){
+
     const {source, destination} = this.props.search
     const {startAddress, endAddress} = this.props.search
     const {postSearchData, getUberPriceEstimates} = this.props
 
     getUberPriceEstimates(source, destination)
-    if (startAddress !== 'current location') {
+    if (startAddress && startAddress !== 'current location') {
       postSearchData(startAddress)
     }
-    postSearchData(endAddress)
+
+    if (endAddress) {
+      postSearchData(endAddress)
+    }
 
   }
 
   componentWillReceiveProps(nextProps){
-    const {uberPrice} = nextProps.results
+    const {uberPrices, uberProducts} = nextProps.results
 
-    if (uberPrice.prices) {
-      const data = adapter.uber.formatUberPriceEstimates(uberPrice.prices)
-      this.setState({data})      
+    if (uberPrices.prices) {
+      const data = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
+      this.setState({data})
     }
-
   }
 
   handleSort = clickedColumn => () => {
@@ -59,6 +62,7 @@ class ResultsView extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { column, data, direction } = this.state
     const {startAddress, endAddress} = this.props.search
 
@@ -73,17 +77,8 @@ class ResultsView extends Component {
               <Table.HeaderCell sorted={column === 'service' ? direction : null} onClick={this.handleSort('service')}>
                 Service
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'min' ? direction : null} onClick={this.handleSort('min')}>
-                Cost-Min
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'max' ? direction : null} onClick={this.handleSort('max')}>
-                Cost-Max
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'duration' ? direction : null} onClick={this.handleSort('duration')}>
-                Duration (min)
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'distance' ? direction : null} onClick={this.handleSort('distance')}>
-                Distance (mi)
+              <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
+                Estimate
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'driver' ? direction : null} onClick={this.handleSort('driver')}>
                 Drive Earnings ($)
@@ -91,13 +86,10 @@ class ResultsView extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ service, min, max, duration, distance, driver }) => (
-              <Table.Row key={service}>
+            {_.map(data, ({ service, estimate, duration, distance, driver }, i) => (
+              <Table.Row key={i}>
                 <Table.Cell>{service}</Table.Cell>
-                <Table.Cell>{min}</Table.Cell>
-                <Table.Cell>{max}</Table.Cell>
-                <Table.Cell>{duration}</Table.Cell>
-                <Table.Cell>{distance}</Table.Cell>
+                <Table.Cell>{estimate}</Table.Cell>
                 <Table.Cell>{driver}</Table.Cell>
               </Table.Row>
             ))}

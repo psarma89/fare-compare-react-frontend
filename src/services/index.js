@@ -1,3 +1,6 @@
+import React from 'react'
+import UberModal from '../components/results/UberModal'
+
 const API_ROOT = `http://localhost:3000/api/v1`;
 const UBER_ROOT = `https://api.uber.com/v1.2`;
 
@@ -72,15 +75,23 @@ const getUberPriceData = (source, destination) => {
   }).then(res => res.json());
 }
 
-const formatUberPriceEstimates = (prices) => {
-  return prices.map(uber => {
+const getUberProductData = (source) => {
+  return fetch(`${UBER_ROOT}/products?latitude=${source.lat}&longitude=${source.lng}`, {
+    method: 'GET',
+    headers: uberHeaders
+  }).then(res => res.json());
+}
+
+const formatUberPriceEstimates = (prices, products) => {
+  return prices.map(price => {
+    const product = products.find(product => product.display_name === price.display_name)
+    const modal = <UberModal price={price} product={product}/>
     return {
-      service: uber.display_name,
-      min: `$${uber.low_estimate}`,
-      max: `$${uber.high_estimate}`,
-      duration: (uber.duration/60).toFixed(2),
-      distance: uber.distance,
-      driver: `$${(uber.low_estimate * .75).toFixed(2)} - $${(uber.high_estimate * .75).toFixed(2)}`
+      service: modal,
+      estimate: price.estimate,
+      duration: (price.duration/60).toFixed(),
+      distance: price.distance,
+      driver: `$${(price.low_estimate * .75).toFixed(2)} - ${(price.high_estimate * .75).toFixed(2)}`
     }
   })
 }
@@ -98,6 +109,7 @@ export const adapter = {
   },
   uber: {
     getUberPriceData,
+    getUberProductData,
     formatUberPriceEstimates
   }
 };

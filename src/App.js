@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     // testAPI()
 
-    const {error, source, destination} = this.props.search
+    // const {error, source, destination} = this.props.search
     const {loggedIn} = this.props
 
     return (
@@ -43,7 +43,7 @@ class App extends Component {
             return (loggedIn? <Redirect to='/profile'/> : <Reset />)
           }}/>
           <Route exact path='/results' render={()=> {
-            return (loggedIn && !error && source && destination? <Results /> : <Redirect to='/search'/>)
+            return (loggedIn? <Results /> : <Redirect to='/search'/>)
           }}/>
           <Route exact path='/profile' render={()=> {
             return (loggedIn? <Profile /> : <Redirect to='/login'/>)

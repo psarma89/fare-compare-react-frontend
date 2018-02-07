@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import withAuth from '../../hocs/withAuth';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
 import * as actions from '../../actions';

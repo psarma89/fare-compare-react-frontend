@@ -116,7 +116,9 @@ export const updateDestination = (endAddress, history) => dispatch => {
 
 export const getUberPriceEstimates = (source, destination) => dispatch => {
   dispatch({ type: 'ASYNC_START' });
-  adapter.uber.getUberPriceData(source, destination).then(uberPrice => {
-    dispatch({ type: 'SET_UBER_PRICE_DATA', uberPrice });
+  adapter.uber.getUberPriceData(source, destination).then(uberPrices => {
+    adapter.uber.getUberProductData(source).then(uberProducts => {
+      dispatch({ type: 'SET_UBER_PRICE_DATA', uberPrices, uberProducts});
+    })
   });
 };

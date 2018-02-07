@@ -60,7 +60,7 @@ class SearchForm extends Component {
   render() {
     // console.log(this.props)
     // console.log(this.state)
-    const {startAddress, endAddress, error} = this.state
+    const {startAddress, endAddress} = this.state
     const {addresses, search} = this.props
 
     const cssClasses = {

@@ -3,7 +3,7 @@ import { Button, Header, Modal, Image } from 'semantic-ui-react'
 
 const UberModal = (props) => {
   const { price, product } = props
-  console.log(product)
+  // console.log(product)
   return(
     <Modal trigger={<a href="#">{price.display_name}</a>} closeIcon>
       <Header icon='car' content={price.display_name} as='h1'/>
@@ -21,10 +21,10 @@ const UberModal = (props) => {
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>
-        <p>Base Fare: </p>
-        <p>Cost Per Distance: </p>
-        <p>Cost Per Minute: </p>
-        <p>Cancellation Fee: </p>
+        <p>Base Fare: {product.price_details.base}</p>
+        <p>Cost Per Distance: {product.price_details.cost_per_distance}</p>
+        <p>Cost Per Minute: {product.price_details.cost_per_minute}</p>
+        <p>Cancellation Fee: {product.price_details.cancellation_fee}</p>
         <p>Total: {price.estimate}</p>
       </Modal.Content>
 

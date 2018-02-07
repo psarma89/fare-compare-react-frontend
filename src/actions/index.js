@@ -69,7 +69,7 @@ export const signupUser = (email, password, password_confirmation, history) => d
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem('token');
+  localStorage.clear();
   return { type: 'LOGOUT_USER' };
 };
 
@@ -93,9 +93,11 @@ export const updateSource = (startAddress, currentLocation) => dispatch => {
   geocodeByAddress(startAddress)
   .then(results => getLatLng(results[0]))
   .then(source => {
+    localStorage.setItem('source', JSON.stringify(source));
     dispatch({type: 'SET_SOURCE_SEARCH', source, startAddress})
   })
   .catch(error => {
+    localStorage.setItem('source', JSON.stringify(currentLocation));
     dispatch({type: 'SET_SOURCE_DEFAULT', currentLocation})
   })
 }
@@ -105,6 +107,7 @@ export const updateDestination = (endAddress, history) => dispatch => {
   geocodeByAddress(endAddress)
   .then(results => getLatLng(results[0]))
   .then(destination => {
+    localStorage.setItem('destination', JSON.stringify(destination));
     dispatch({type: 'SET_DESTINATION_SEARCH', destination, endAddress})
     history.push('/results')
   })

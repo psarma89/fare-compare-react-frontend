@@ -18,7 +18,8 @@ class ResultsView extends Component {
 
   componentDidMount(){
 
-    const {source, destination} = this.props.search
+    const source = JSON.parse(localStorage.getItem('source'))
+    const destination = JSON.parse(localStorage.getItem('destination'))
     const {startAddress, endAddress} = this.props.search
     const {postSearchData, getUberPriceEstimates} = this.props
 

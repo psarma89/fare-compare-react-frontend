@@ -13,13 +13,6 @@ const SideBar = (props) => {
             Find Ride Now
           </NavLink>
         </Menu.Item>
-        <Menu.Item name='ridelater'>
-          <Icon name='car' />
-          <NavLink
-            to="/later">
-            Find Rides Later
-          </NavLink>
-        </Menu.Item>
         <Menu.Item name='profile'>
           <Icon name='user circle'/>
           <NavLink

@@ -10,9 +10,9 @@ class ResultsView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      column: null,
+      column: 'estimate',
       data: [],
-      direction: null
+      direction: 'ascending'
     }
   }
 
@@ -21,9 +21,10 @@ class ResultsView extends Component {
     const source = JSON.parse(localStorage.getItem('source'))
     const destination = JSON.parse(localStorage.getItem('destination'))
     const {startAddress, endAddress} = this.props.search
-    const {postSearchData, getUberPriceEstimates} = this.props
+    const {postSearchData, getRidePriceEstimates} = this.props
 
-    getUberPriceEstimates(source, destination)
+    getRidePriceEstimates(source, destination)
+
     if (startAddress && startAddress !== 'current location') {
       postSearchData(startAddress)
     }
@@ -35,12 +36,14 @@ class ResultsView extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const {uberPrices, uberProducts} = nextProps.results
+    const {uberPrices, uberProducts, lyftPrices, lyftProducts} = nextProps.results
 
-    if (uberPrices.prices) {
-      const data = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
-      this.setState({data})
-    }
+    const uberData = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
+    const lyftData = adapter.lyft.formatLyftPriceEstimates(lyftPrices.cost_estimates, lyftProducts.ride_types)
+    const data = [...uberData, ...lyftData]
+
+    this.setState({data})
+
   }
 
   handleSort = clickedColumn => () => {
@@ -63,9 +66,9 @@ class ResultsView extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     const { column, data, direction } = this.state
-    const {startAddress, endAddress} = this.props.search
+    const {startAddress, endAddress} = localStorage
 
     return (
       <div>
@@ -87,7 +90,7 @@ class ResultsView extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ service, estimate, duration, distance, driver }, i) => (
+            {_.map(data, ({ service, estimate, driver }, i) => (
               <Table.Row key={i}>
                 <Table.Cell>{service}</Table.Cell>
                 <Table.Cell>{estimate}</Table.Cell>

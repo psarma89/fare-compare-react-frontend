@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: ''}};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '' }};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: ''}};
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: ''}};
     default:
       return state;
   }
@@ -55,10 +55,13 @@ const locReducer = (state = initialState, action) => {
   }
 };
 
-const ubeReducer = (state = initialState, action) => {
+const rideReducer = (state = initialState, action) => {
+
+  const {uberPrices, uberProducts, lyftPrices, lyftProducts} = action
+
   switch (action.type) {
-    case 'SET_UBER_PRICE_DATA':
-      return { ...state, results: {...state.results, uberPrices: action.uberPrices, uberProducts: action.uberProducts}};
+    case 'SET_PRICE_DATA':
+      return { ...state, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts}};
     default:
       return state;
   }
@@ -69,7 +72,7 @@ const rootReducer =  combineReducers({
   map: mapReducer,
   post: postReducer,
   loc: locReducer,
-  res: ubeReducer
+  res: rideReducer
 });
 
 export default rootReducer;

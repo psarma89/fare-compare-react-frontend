@@ -43,7 +43,7 @@ class App extends Component {
             return (loggedIn? <Redirect to='/profile'/> : <Reset />)
           }}/>
           <Route exact path='/results' render={()=> {
-            return (loggedIn? <Results /> : <Redirect to='/search'/>)
+            return (loggedIn && localStorage.getItem('source') && localStorage.getItem('destination')? <Results /> : <Redirect to='/search'/>)
           }}/>
           <Route exact path='/profile' render={()=> {
             return (loggedIn? <Profile /> : <Redirect to='/login'/>)

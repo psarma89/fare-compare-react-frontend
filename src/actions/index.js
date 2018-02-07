@@ -93,10 +93,12 @@ export const updateSource = (startAddress, currentLocation) => dispatch => {
   geocodeByAddress(startAddress)
   .then(results => getLatLng(results[0]))
   .then(source => {
+    localStorage.setItem('startAddress', startAddress);
     localStorage.setItem('source', JSON.stringify(source));
     dispatch({type: 'SET_SOURCE_SEARCH', source, startAddress})
   })
   .catch(error => {
+    localStorage.setItem('startAddress', 'current location');
     localStorage.setItem('source', JSON.stringify(currentLocation));
     dispatch({type: 'SET_SOURCE_DEFAULT', currentLocation})
   })
@@ -107,6 +109,7 @@ export const updateDestination = (endAddress, history) => dispatch => {
   geocodeByAddress(endAddress)
   .then(results => getLatLng(results[0]))
   .then(destination => {
+    localStorage.setItem('endAddress', endAddress);
     localStorage.setItem('destination', JSON.stringify(destination));
     dispatch({type: 'SET_DESTINATION_SEARCH', destination, endAddress})
     history.push('/results')
@@ -117,11 +120,16 @@ export const updateDestination = (endAddress, history) => dispatch => {
   })
 };
 
-export const getUberPriceEstimates = (source, destination) => dispatch => {
+export const getRidePriceEstimates = (source, destination) => dispatch => {
+  const {getUberPriceData, getUberProductData} = adapter.uber
+  const {getLyftPriceData, getLyftProductData} = adapter.lyft
+
   dispatch({ type: 'ASYNC_START' });
-  adapter.uber.getUberPriceData(source, destination).then(uberPrices => {
-    adapter.uber.getUberProductData(source).then(uberProducts => {
-      dispatch({ type: 'SET_UBER_PRICE_DATA', uberPrices, uberProducts});
-    })
-  });
-};
+  Promise.all([getUberPriceData(source, destination), getUberProductData(source), getLyftPriceData(source, destination), getLyftProductData(source)]).then(values => {
+    const uberPrices = values[0];
+    const uberProducts = values[1];
+    const lyftPrices = values[2];
+    const lyftProducts = values[3];
+    dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts});
+  })
+}

@@ -23,7 +23,7 @@ const UberModal = (props) => {
         <h2>Fare Info</h2>
         <p>Base Fare: {product.price_details.base}</p>
         <p>Cost Per Distance: {product.price_details.cost_per_distance}</p>
-        <p>Cost Per Minute: {product.price_details.cost_per_minute}</p>
+        <p>Cost Per Mile: {product.price_details.cost_per_minute}</p>
         <p>Cancellation Fee: {product.price_details.cancellation_fee}</p>
         <p>Total: {price.estimate}</p>
       </Modal.Content>

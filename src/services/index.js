@@ -1,10 +1,13 @@
 import React from 'react';
 import UberModal from '../components/results/UberModal';
 import LyftModal from '../components/results/LyftModal';
+import TaxiModal from '../components/results/TaxiModal';
 
 const API_ROOT = `http://localhost:3000/api/v1`;
 const UBER_ROOT = `https://api.uber.com/v1.2`;
 const LYFT_ROOT = `https://api.lyft.com/v1`;
+const TAXI_ROOT = 'http://localhost:3000/api/v1/taxi_fare';
+
 
 const headers = {
   'Content-Type': 'application/json',
@@ -19,6 +22,12 @@ const uberHeaders = {
 
 const lyftHeaders = {
   'Authorization': 'Bearer 6lKymAETJscXPbFbID9+vU32drXfImUyHOkJIUgl/lTzLRg0f0sBk21mQ1oaQYhs/sxjdUqi2d+SG7j2NVtxuT20x6VgvYYe2oW5X9TuzpuWYTtVm1orGRs=',
+  'Content-Type': 'application/json'
+};
+
+const taxiHeaders = {
+  'Authorization': localStorage.getItem('token'),
+  'Accepts': 'application/json',
   'Content-Type': 'application/json'
 };
 
@@ -131,6 +140,25 @@ const formatLyftPriceEstimates = (prices, products) => {
   })
 }
 
+const getTaxiPriceData = (source, destination) => {
+  return fetch(TAXI_ROOT, {
+    method: 'POST',
+    headers: taxiHeaders,
+    body: JSON.stringify({source, destination})
+  }).then(resp => resp.json());
+}
+
+const formatTaxiPriceEstimates = (prices) => {
+  const modal = <TaxiModal price={prices} />
+  return {
+    service: modal,
+    estimate: `$${(prices.total_fare - prices.tip_amount).toFixed()}-${(prices.total_fare - prices.tip_amount).toFixed()}`,
+    duration: (prices.duration/60).toFixed(),
+    distance: (prices.distance/1609.344).toFixed(),
+    driver: `$${((prices.total_fare - prices.tip_amount)*.66).toFixed()}-${((prices.total_fare - prices.tip_amount)*.66).toFixed()}`
+  }
+}
+
 export const adapter = {
   auth: {
     login,
@@ -151,5 +179,9 @@ export const adapter = {
     getLyftPriceData,
     getLyftProductData,
     formatLyftPriceEstimates
+  },
+  taxi: {
+    getTaxiPriceData,
+    formatTaxiPriceEstimates
   }
 };

@@ -17,6 +17,7 @@ const LyftModal = (props) => {
         <p>Duration: {(price.duration/60).toFixed()} minutes</p>
         <p>Shared: {product.ride_type === "lyft_line" ? "Yes" : "No"}</p>
         <p>Capacity: {product.seats}</p>
+        <p>Surge: {price.primetime_percentage ? "Y" : "N"}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>

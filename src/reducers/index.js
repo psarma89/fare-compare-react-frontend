@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '' }};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: ''}};
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
     default:
       return state;
   }
@@ -57,11 +57,11 @@ const locReducer = (state = initialState, action) => {
 
 const rideReducer = (state = initialState, action) => {
 
-  const {uberPrices, uberProducts, lyftPrices, lyftProducts} = action
+  const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices} = action
 
   switch (action.type) {
     case 'SET_PRICE_DATA':
-      return { ...state, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts}};
+      return { ...state, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices}};
     default:
       return state;
   }

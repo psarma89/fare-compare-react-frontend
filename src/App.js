@@ -7,7 +7,6 @@ import Profile from './components/profile/Profile';
 import Signup from './components/home/Signup';
 import Reset from './components/home/Reset';
 import FullSearch from './components/search/FullSearch';
-import LaterSearch from './components/search/LaterSearch';
 import Results from './components/results/Results';
 import * as actions from './actions';
 import {testAPI} from './API.js';
@@ -35,9 +34,6 @@ class App extends Component {
           }}/>
           <Route exact path='/search' render={()=> {
             return (loggedIn? <FullSearch /> : <Redirect to='/login'/>)
-          }}/>
-          <Route exact path='/later' render={()=> {
-            return (loggedIn? <LaterSearch /> : <Redirect to='/login'/>)
           }}/>
           <Route exact path='/reset' render={()=> {
             return (loggedIn? <Redirect to='/profile'/> : <Reset />)

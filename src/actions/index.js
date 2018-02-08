@@ -123,13 +123,16 @@ export const updateDestination = (endAddress, history) => dispatch => {
 export const getRidePriceEstimates = (source, destination) => dispatch => {
   const {getUberPriceData, getUberProductData} = adapter.uber
   const {getLyftPriceData, getLyftProductData} = adapter.lyft
+  const {getTaxiPriceData} = adapter.taxi
 
+  getTaxiPriceData(source, destination)
   dispatch({ type: 'ASYNC_START' });
-  Promise.all([getUberPriceData(source, destination), getUberProductData(source), getLyftPriceData(source, destination), getLyftProductData(source)]).then(values => {
+  Promise.all([getUberPriceData(source, destination), getUberProductData(source), getLyftPriceData(source, destination), getLyftProductData(source), getTaxiPriceData(source,destination)]).then(values => {
     const uberPrices = values[0];
     const uberProducts = values[1];
     const lyftPrices = values[2];
     const lyftProducts = values[3];
-    dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts});
+    const taxiPrices = values[4];
+    dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices});
   })
 }

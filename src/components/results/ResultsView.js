@@ -10,9 +10,9 @@ class ResultsView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      column: 'estimate',
+      column: null,
       data: [],
-      direction: 'ascending'
+      direction: null
     }
   }
 
@@ -36,11 +36,13 @@ class ResultsView extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const {uberPrices, uberProducts, lyftPrices, lyftProducts} = nextProps.results
+    const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices} = nextProps.results
 
     const uberData = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
     const lyftData = adapter.lyft.formatLyftPriceEstimates(lyftPrices.cost_estimates, lyftProducts.ride_types)
-    const data = [...uberData, ...lyftData]
+    const taxiData = adapter.taxi.formatTaxiPriceEstimates(taxiPrices)
+    console.log(taxiData)
+    const data = [...lyftData, taxiData, ...uberData]
 
     this.setState({data})
 

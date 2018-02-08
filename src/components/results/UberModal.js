@@ -18,6 +18,7 @@ const UberModal = (props) => {
         <p>Duration: {(price.duration/60).toFixed()} minutes</p>
         <p>Shared: {product.shared ? "Yes" : "No"}</p>
         <p>Capacity: {product.capacity}</p>
+        <p>Surge: {"Maybe"}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>

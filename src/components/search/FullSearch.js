@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import withAuth from '../../hocs/withAuth';
 import { withRouter} from 'react-router-dom';
 import * as actions from '../../actions';
 import TopMenu from '../common/TopMenu';
@@ -29,4 +30,4 @@ class FullSearch extends Component{
   }
 }
 
-export default withRouter(connect(null, actions)(FullSearch));
+export default withAuth(withRouter(connect(null, actions)(FullSearch)));

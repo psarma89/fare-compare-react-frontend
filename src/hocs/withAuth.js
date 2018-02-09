@@ -12,6 +12,7 @@ const withAuth = WrappedComponent => {
     componentDidMount() {
       if (localStorage.getItem('token')) {
         this.props.fetchUser();
+        this.props.getLocation();
       } else {
         this.setState({ authCompleted: true });
       }
@@ -37,7 +38,7 @@ const withAuth = WrappedComponent => {
   }
 
   const mapStateToProps = state => ({
-    loggedIn: !!state.auth.currentUser.id
+    loggedIn: !!state.auth.currentUser.id,
   });
 
   return connect(mapStateToProps, actions)(AuthedComponent);

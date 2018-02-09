@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Header, Modal, Image } from 'semantic-ui-react'
+import { Button, Header, Modal } from 'semantic-ui-react'
 
 const TaxiModal = (props) => {
   const { price } = props

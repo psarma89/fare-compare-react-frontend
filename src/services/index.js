@@ -8,7 +8,6 @@ const UBER_ROOT = `https://api.uber.com/v1.2`;
 const LYFT_ROOT = `https://api.lyft.com/v1`;
 const TAXI_ROOT = 'http://localhost:3000/api/v1/taxi_fare';
 
-
 const headers = {
   'Content-Type': 'application/json',
   'Accepts': 'application/json'
@@ -84,6 +83,13 @@ const getSearches = () => {
   }).then(res => res.json());
 };
 
+const getNearestUber = (source) => {
+  return fetch(`${UBER_ROOT}/estimates/time?start_latitude=${source.lat}&start_longitude=${source.lng}`, {
+    method: 'GET',
+    headers: uberHeaders
+  }).then(res => res.json());
+}
+
 const getUberPriceData = (source, destination) => {
   return fetch(`${UBER_ROOT}/estimates/price?start_latitude=${source.lat}&start_longitude=${source.lng}&end_latitude=${destination.lat}&end_longitude=${destination.lng}`, {
     method: 'GET',
@@ -110,6 +116,13 @@ const formatUberPriceEstimates = (prices, products) => {
       driver: `$${(price.low_estimate * .75).toFixed()}-${(price.high_estimate * .75).toFixed()}`
     }
   })
+}
+
+const getNearestLyft = (source) => {
+  return fetch(`${LYFT_ROOT}/eta?lat=${source.lat}&lng=${source.lng}`, {
+    method: 'GET',
+    headers: lyftHeaders
+  }).then(res => res.json());
 }
 
 const getLyftPriceData = (source, destination) => {
@@ -173,12 +186,14 @@ export const adapter = {
   uber: {
     getUberPriceData,
     getUberProductData,
-    formatUberPriceEstimates
+    formatUberPriceEstimates,
+    getNearestUber
   },
   lyft: {
     getLyftPriceData,
     getLyftProductData,
-    formatLyftPriceEstimates
+    formatLyftPriceEstimates,
+    getNearestLyft
   },
   taxi: {
     getTaxiPriceData,

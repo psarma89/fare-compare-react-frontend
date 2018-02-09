@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 import { adapter } from '../../services';
-import { Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react';
+import {renderComponents} from '../../services/renderComponents';
 
 class ResultsView extends Component {
   constructor(props) {
@@ -41,7 +42,6 @@ class ResultsView extends Component {
     const uberData = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
     const lyftData = adapter.lyft.formatLyftPriceEstimates(lyftPrices.cost_estimates, lyftProducts.ride_types)
     const taxiData = adapter.taxi.formatTaxiPriceEstimates(taxiPrices)
-    console.log(taxiData)
     const data = [...lyftData, taxiData, ...uberData]
 
     this.setState({data})
@@ -68,7 +68,7 @@ class ResultsView extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     const { column, data, direction } = this.state
     const {startAddress, endAddress} = localStorage
 
@@ -76,6 +76,7 @@ class ResultsView extends Component {
       <div>
         <p>Start: {startAddress}</p>
         <p>Destination: {endAddress}</p>
+        {renderComponents.map.directionComponent()}
         <h1>Results</h1>
         <Table sortable celled fixed>
           <Table.Header>

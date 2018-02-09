@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import reduxThunk from 'redux-thunk';
@@ -17,7 +17,7 @@ const Root = ({ store }) => {
   return (
     <Router>
       <Provider store={store}>
-        <App />
+        <Route path="/" component={App} />
       </Provider>
     </Router>
   );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import withAuth from '../../hocs/withAuth';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
 import * as actions from '../../actions';
@@ -24,8 +25,4 @@ class Profile extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   loggedIn: !!state.auth.currentUser.id
-// });
-
-export default withRouter(connect(null, actions)(Profile));
+export default withAuth(withRouter(connect(null, actions)(Profile)));

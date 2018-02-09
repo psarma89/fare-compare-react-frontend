@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
+import withAuth from '../../hocs/withAuth';
+import withLoc from '../../hocs/withLoc';
 import * as actions from '../../actions';
 import TopMenu from '../common/TopMenu';
 import SideBar from '../common/SideBar';
@@ -30,4 +32,4 @@ class Results extends Component{
 
 }
 
-export default withRouter(connect(null, actions)(Results));
+export default withLoc(withAuth(withRouter(connect(null, actions)(Results))));

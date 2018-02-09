@@ -1,5 +1,6 @@
 import { adapter } from '../services';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import _ from 'lodash';
 
 export const getLocation = () => dispatch => {
 
@@ -125,7 +126,6 @@ export const getRidePriceEstimates = (source, destination) => dispatch => {
   const {getLyftPriceData, getLyftProductData} = adapter.lyft
   const {getTaxiPriceData} = adapter.taxi
 
-  getTaxiPriceData(source, destination)
   dispatch({ type: 'ASYNC_START' });
   Promise.all([getUberPriceData(source, destination), getUberProductData(source), getLyftPriceData(source, destination), getLyftProductData(source), getTaxiPriceData(source,destination)]).then(values => {
     const uberPrices = values[0];
@@ -135,4 +135,23 @@ export const getRidePriceEstimates = (source, destination) => dispatch => {
     const taxiPrices = values[4];
     dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices});
   })
+}
+
+export const getNearestETA = (source) => dispatch => {
+  const {getNearestUber} = adapter.uber
+  const {getNearestLyft} = adapter.lyft
+
+  dispatch({ type: 'ASYNC_START' });
+  Promise.all([getNearestUber(source), getNearestLyft(source)]).then(values => {
+    // console.log(values)
+    const uberETA = _.minBy(values[0].times, (eta) => {
+      return eta.estimate;
+    })
+    const lyftETA = _.minBy(values[1].eta_estimates, (eta) => {
+      return eta.eta_seconds;
+    })
+    dispatch({ type: 'SET_RIDE_ETA', uberETA, lyftETA})
+  })
+
+
 }

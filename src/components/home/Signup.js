@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
+import withLoggedIn from '../../hocs/withLoggedIn';
 import NavBar from '../common/NavBar';
 import * as actions from '../../actions';
+import {renderComponents} from '../../services/renderComponents';
 
 class Signup extends React.Component {
   constructor() {
@@ -37,35 +39,9 @@ class Signup extends React.Component {
         <h2>Sign Up Page</h2>
         <div className="ui form">
           <form onSubmit={this.handleSubmit}>
-            <div className="ui field">
-              <label>Email</label>
-              <input
-                name="email"
-                placeholder="email"
-                value={fields.email}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="ui field">
-              <label>Password</label>
-              <input
-                name="password"
-                type="password"
-                placeholder="password"
-                value={fields.password}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="ui field">
-              <label>Password Confirmation</label>
-              <input
-                name="passwordConfirmation"
-                type="password"
-                placeholder="password"
-                value={fields.passwordConfirmation}
-                onChange={this.handleChange}
-              />
-            </div>
+            {renderComponents.auth.emailComponent(fields.email, this.handleChange)}
+            {renderComponents.auth.passwordComponent(fields.password, this.handleChange)}
+            {renderComponents.auth.passwordConfirmationComponent(fields.passwordConfirmation, this.handleChange)}
             <button type="submit" className="ui basic green button">
               Signup
             </button>
@@ -80,6 +56,6 @@ const mapStateToProps = state => ({
   error: state.auth.currentUser.error
 });
 
-export default withRouter(connect(mapStateToProps, actions)(Signup));
+export default withLoggedIn(withRouter(connect(mapStateToProps, actions)(Signup)));
 //
 // export default withRouter(withAuth(Login));

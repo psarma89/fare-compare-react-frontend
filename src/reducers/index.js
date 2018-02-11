@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberETA: '', lyftETA: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7484,lng: 73.9857}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', lyftGeoCoords: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberETA: '', lyftETA: ''}, results: { uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', lyftGeoCoords: ''}, results: { uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
     default:
       return state;
   }
@@ -22,6 +22,11 @@ const mapReducer = (state = initialState, action) => {
     case 'SET_LOCATION':
       const { lat, lng } = action.location;
       return { ...state, currentLocation: { lat, lng }};
+    case 'SET_CURRENT_USER':
+      if (action.location) {
+        const { lat, lng } = action.location;
+        return { ...state, currentLocation: { lat, lng }};
+      }
     default:
       return state;
   }
@@ -57,24 +62,36 @@ const locReducer = (state = initialState, action) => {
 
 const rideReducer = (state = initialState, action) => {
 
-  const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, uberETA, lyftETA} = action
+  const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices} = action
 
   switch (action.type) {
     case 'SET_PRICE_DATA':
       return { ...state, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices}};
-    case 'SET_RIDE_ETA':
-      return {...state, etas: {...state.etas, uberETA, lyftETA}}
     default:
       return state;
   }
 };
+
+const rideInfoReducer = (state = initialState, action) => {
+  const {uberEtaDisplay, lyftEtaDisplay, lyftGeoCoords} = action
+
+  switch (action.type) {
+    case 'SET_RIDE_ETA':
+      return {...state, etas: {...state.etas, uberEtaDisplay, lyftEtaDisplay}}
+    case 'SET_NEAREST_LYFTS':
+      return {...state, etas: {...state.etas, lyftGeoCoords}}
+    default:
+      return state;
+  }
+}
 
 const rootReducer =  combineReducers({
   auth: authReducer,
   map: mapReducer,
   post: postReducer,
   loc: locReducer,
-  res: rideReducer
+  res: rideReducer,
+  inf: rideInfoReducer
 });
 
 export default rootReducer;

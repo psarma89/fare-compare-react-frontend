@@ -83,7 +83,7 @@ const getSearches = () => {
   }).then(res => res.json());
 };
 
-const getNearestUber = (source) => {
+const getNearestUberEta = (source) => {
   return fetch(`${UBER_ROOT}/estimates/time?start_latitude=${source.lat}&start_longitude=${source.lng}`, {
     method: 'GET',
     headers: uberHeaders
@@ -118,8 +118,15 @@ const formatUberPriceEstimates = (prices, products) => {
   })
 }
 
-const getNearestLyft = (source) => {
+const getNearestLyftEta = (source) => {
   return fetch(`${LYFT_ROOT}/eta?lat=${source.lat}&lng=${source.lng}`, {
+    method: 'GET',
+    headers: lyftHeaders
+  }).then(res => res.json());
+}
+
+const getNearestLyftLocations = (source) => {
+  return fetch(`${LYFT_ROOT}/nearby-drivers-pickup-etas?lat=${source.lat}&lng=${source.lng}`, {
     method: 'GET',
     headers: lyftHeaders
   }).then(res => res.json());
@@ -187,13 +194,14 @@ export const adapter = {
     getUberPriceData,
     getUberProductData,
     formatUberPriceEstimates,
-    getNearestUber
+    getNearestUberEta
   },
   lyft: {
     getLyftPriceData,
     getLyftProductData,
     formatLyftPriceEstimates,
-    getNearestLyft
+    getNearestLyftEta,
+    getNearestLyftLocations
   },
   taxi: {
     getTaxiPriceData,

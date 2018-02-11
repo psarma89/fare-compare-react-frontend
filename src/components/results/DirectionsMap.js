@@ -2,10 +2,7 @@
 
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Icon} from 'semantic-ui-react';
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, TrafficLayer} from 'react-google-maps';
-import { bindActionCreators } from 'redux';
-import * as actions from '../../actions';
 
 class DirectionsMap extends Component{
 
@@ -37,8 +34,7 @@ class DirectionsMap extends Component{
   }
 
   render(){
-    console.log(this.props)
-    const source = JSON.parse(localStorage.getItem('source'))
+    // console.log(this.props)
     return(
       <GoogleMap
         zoom={20}

@@ -3,17 +3,16 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, TrafficLayer} from 'react-google-maps';
-import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import * as actions from '../../actions';
+import LyftPins from './LyftPins'
 
 class Map extends Component{
 
   constructor(){
     super()
     this.state = {
-      isBoxOpen: true,
-      isWindowOpen: false
+      isBoxOpen: true
     }
   }
 
@@ -22,7 +21,7 @@ class Map extends Component{
   }
 
   componentDidMount() {
-    this.props.getNearestLyftCoords(this.props.location)
+    // this.props.getNearestLyftCoords(this.props.location)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,62 +35,45 @@ class Map extends Component{
     this.setState({isBoxOpen: !this.state.isBoxOpen})
   }
 
-  onWindowToggleOpen = () => {
-    this.setState({isWindowOpen: !this.state.isWindowOpen})
-  }
-
   onDragEnd = (event) => {
     const location = {lat: event.latLng.lat(), lng: event.latLng.lng()}
     this.props.getLocation(location)
   }
 
   render(){
-    console.log(this.props)
-    const {uberEtaDisplay, lyftEtaDisplay} = this.props.etas
-
-    let lyftGeoCoords;
-    // lyftGeoCoords && !lyftGeoCoords.error ? lyftGeoCoords = lyftGeoCoords.nearby_drivers.find(locs => locs.ride_type === "lyft").drivers : lyftGeoCoords = null
-    // console.log(lyftGeoCoords)
+    console.log(this.props.etas, this.props.location)
+    const {location} = this.props
+    const {uberEtaDisplay, lyftEtaDisplay, nearbyLyftCoords} = this.props.etas
 
     return(
       <GoogleMap
         zoom={16}
-        center={this.props.location}
+        center={location}
       >
-        {this.state.isBoxOpen && <InfoBox
-          onCloseClick={this.onBoxToggleOpen}
-          defaultPosition={new google.maps.LatLng(this.props.location.lat, this.props.location.lng)}
-          >
-          <div>
-            <h3>Nearest Ubers</h3>
-            {uberEtaDisplay? uberEtaDisplay : null}
-            <h3>Nearest Lyfts</h3>
-            {lyftEtaDisplay? lyftEtaDisplay : null}
-          </div>
-        </InfoBox>
-        }
-
         <Marker
-          position={this.props.location}
-          onClick={this.onWindowToggleOpen}
+          position={location}
           draggable
           animation={google.maps.Animation.DROP}
           onDragEnd={this.onDragEnd}
         >
-          {this.state.isWindowOpen && <InfoWindow onCloseClick={this.onBoxToggleOpen}>
-            <div>
-              <h3>You are here</h3>
+          {this.state.isBoxOpen && <InfoBox
+            onCloseClick={this.onBoxToggleOpen}
+            position={new google.maps.LatLng(location.lat, location.lng)}
+            options={{ pixelOffset: new google.maps.Size(400,-300), closeBoxURL: ``}}
+            >
+            <div style={{ backgroundColor: `yellow`, opacity: 0.75, padding: `12px` }}>
+              <h4>{location.address? location.address : null}</h4>
+              <h4>Nearest Ubers</h4>
+              {uberEtaDisplay? uberEtaDisplay : null}
+              <h4>Nearest Lyfts</h4>
+              {lyftEtaDisplay? lyftEtaDisplay : null}
             </div>
-          </InfoWindow>
+          </InfoBox>
           }
         </Marker>
-        {lyftGeoCoords ? lyftGeoCoords.map((marker,i) => {
+        {nearbyLyftCoords? nearbyLyftCoords.map((marker,i) => {
           return (
-            <Marker
-              key={i}
-              position={marker.locations[0]}
-              icon={'http://maps.gstatic.com/mapfiles/ms2/micons/pink-pushpin.png'}
-            />
+            <LyftPins key={i} marker={marker} />
           )
         }): null}
         <TrafficLayer autoUpdate />

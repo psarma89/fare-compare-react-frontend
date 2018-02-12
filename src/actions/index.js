@@ -1,18 +1,38 @@
+/* global google */
 import React from 'react';
 import { adapter } from '../services';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import _ from 'lodash';
 
-export const getLocation = (location) => dispatch => {
+export const getLocation = (loc) => dispatch => {
   dispatch({ type: 'ASYNC_START' });
 
-  if (location) {
-    dispatch({ type: 'SET_LOCATION', location });
+  if (loc) {
+    const latLng = new google.maps.LatLng(loc.lat, loc.lng)
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ latLng }, (items, status) => {
+      const location = loc
+      if (status === "OK") {
+        location.address = items[0].formatted_address
+        dispatch({ type: 'SET_LOCATION', location });
+      }else {
+        dispatch({ type: 'SET_LOCATION', location });
+      }
+    })
   }else {
     navigator.geolocation.getCurrentPosition((pos) => {
       const coords = pos.coords;
-      const location = {lat: coords.latitude, lng: coords.longitude}
-      dispatch({ type: 'SET_LOCATION', location });
+      const latLng = new google.maps.LatLng(coords.latitude, coords.longitude)
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ latLng }, (items, status) => {
+        const location = {lat: coords.latitude, lng: coords.longitude}
+        if (status === "OK") {
+          location.address = items[0].formatted_address
+          dispatch({ type: 'SET_LOCATION', location });
+        }else {
+          dispatch({ type: 'SET_LOCATION', location });
+        }
+      })
     })
   }
 };
@@ -32,16 +52,36 @@ export const loginUser = (email, password, history) => dispatch => {
 
   if (navigator && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((pos) => {
+
       const coords = pos.coords;
-      const location = {lat: coords.latitude, lng: coords.longitude}
-      login({ email, password }).then(user => {
-        if (user.email) {
-          localStorage.setItem('token', user.jwt);
-          dispatch({ type: 'SET_CURRENT_USER', user, location });
-          history.push('/profile')
+      const latLng = new google.maps.LatLng(coords.latitude, coords.longitude)
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ latLng }, (items, status) => {
+        const location = {lat: coords.latitude, lng: coords.longitude}
+        if (status === "OK") {
+          location.address = items[0].formatted_address
+
+          login({ email, password }).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }else {
-          dispatch({ type: 'SHOW_LOGIN_ERROR', user });
-          history.push('/login')
+          login({ email, password }).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }
       })
     })
@@ -55,16 +95,36 @@ export const updateUser = (email, password, history) => dispatch => {
 
   if (navigator && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((pos) => {
+
       const coords = pos.coords;
-      const location = {lat: coords.latitude, lng: coords.longitude}
-      update({ email, password }).then(user => {
-        if (user.email) {
-          localStorage.setItem('token', user.jwt);
-          dispatch({ type: 'SET_CURRENT_USER', user, location });
-          history.push('/profile')
+      const latLng = new google.maps.LatLng(coords.latitude, coords.longitude)
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ latLng }, (items, status) => {
+        const location = {lat: coords.latitude, lng: coords.longitude}
+        if (status === "OK") {
+          location.address = items[0].formatted_address
+
+          update({ email, password }).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }else {
-          dispatch({ type: 'SHOW_LOGIN_ERROR', user });
-          history.push('/login')
+          update({ email, password }).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }
       })
     })
@@ -78,16 +138,36 @@ export const signupUser = (email, password, password_confirmation, history) => d
 
   if (navigator && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((pos) => {
+
       const coords = pos.coords;
-      const location = {lat: coords.latitude, lng: coords.longitude}
-      signup({ email, password, password_confirmation }).then(user => {
-        if (user.email) {
-          localStorage.setItem('token', user.jwt);
-          dispatch({ type: 'SET_CURRENT_USER', user, location });
-          history.push('/profile')
+      const latLng = new google.maps.LatLng(coords.latitude, coords.longitude)
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ latLng }, (items, status) => {
+        const location = {lat: coords.latitude, lng: coords.longitude}
+        if (status === "OK") {
+          location.address = items[0].formatted_address
+
+          signup({ email, password, password_confirmation}).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }else {
-          dispatch({ type: 'SHOW_LOGIN_ERROR', user });
-          history.push('/login')
+          signup({ email, password, password_confirmation }).then(user => {
+            if (user.email) {
+              localStorage.setItem('token', user.jwt);
+              dispatch({ type: 'SET_CURRENT_USER', user, location });
+              history.push('/profile')
+            }else {
+              dispatch({ type: 'SHOW_LOGIN_ERROR', user });
+              history.push('/login')
+            }
+          })
         }
       })
     })
@@ -168,18 +248,16 @@ export const getRidePriceEstimates = (source, destination) => dispatch => {
 }
 
 export const getNearestRidesInfo = (source) => dispatch => {
-  dispatch({ type: 'ASYNC_START' });
+  // dispatch({ type: 'ASYNC_START' });
 
   const {getNearestUberEta} = adapter.uber
-  const {getNearestLyftEta} = adapter.lyft
+  const {getNearestLyftEta, getNearestLyftLocations} = adapter.lyft
 
-  Promise.all([getNearestUberEta(source), getNearestLyftEta(source)]).then(values => {
-    // console.log(values)
-    // const uberETA = _.minBy(values[0].times, (eta) => {
-    //   return eta.estimate;
-    // })
+  Promise.all([getNearestUberEta(source), getNearestLyftEta(source), getNearestLyftLocations(source)]).then(values => {
+
     const uberETA = values[0].times || []
     const lyftETA = values[1].eta_estimates || []
+    const lyftLocations =  values[2].nearby_drivers_pickup_etas || []
 
     const uberEtaDisplay = uberETA.map((eta,i) => {
       const uberMins = (eta.estimate/60).toFixed()
@@ -191,15 +269,36 @@ export const getNearestRidesInfo = (source) => dispatch => {
       return <p key={i}>{`${eta.display_name} only ${lyftMins} ${lyftMins > 1 ? "mins" : "min"} away`}</p>
     })
 
-    dispatch({ type: 'SET_RIDE_ETA', uberEtaDisplay, lyftEtaDisplay})
+    const lyftGeoCoords = lyftLocations.map(driver => {
+      return driver.nearby_drivers.map(location => {
+        const tempHash = {}
+        tempHash.location = location.locations[0]
+        tempHash.display_name = driver.display_name
+        tempHash.eta = ((driver.pickup_duration_range.duration_ms)/60000).toFixed(2)
+        return tempHash
+      })
+    })
+
+    const nearbyLyftCoords = _.flattenDeep(lyftGeoCoords)
+
+    dispatch({ type: 'SET_RIDE_ETA', uberEtaDisplay, lyftEtaDisplay, nearbyLyftCoords})
   })
 }
 
-export const getNearestLyftCoords = (source) => dispatch => {
-  dispatch({ type: 'ASYNC_START' });
-
-  adapter.lyft.getNearestLyftLocations(source).then(lyftGeoCoords => {
-    console.log(lyftGeoCoords)
-    dispatch({ type: 'SET_NEAREST_LYFTS', lyftGeoCoords });
-  });
-};
+// export const getNearestLyftCoords = (source) => dispatch => {
+//   dispatch({ type: 'ASYNC_START' });
+//
+//   adapter.lyft.getNearestLyftLocations(source).then(lyftLocations => {
+//     const lyftGeoCoords = lyftLocations.nearby_drivers_pickup_etas.map(driver => {
+//       return driver.nearby_drivers.map(location => {
+//         const tempHash = {}
+//         tempHash.location = location.locations[0]
+//         tempHash.display_name = driver.display_name
+//         tempHash.eta = ((driver.pickup_duration_range.duration_ms)/60000).toFixed(2)
+//         return tempHash
+//       })
+//     })
+//     const nearbyLyftCoords = _.flattenDeep(lyftGeoCoords)
+//     dispatch({ type: 'SET_NEAREST_LYFTS', nearbyLyftCoords });
+//   });
+// };

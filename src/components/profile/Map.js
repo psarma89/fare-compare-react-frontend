@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, TrafficLayer} from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker,TrafficLayer} from 'react-google-maps';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import * as actions from '../../actions';
 import LyftPins from './LyftPins'

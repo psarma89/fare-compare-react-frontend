@@ -5,7 +5,7 @@ class DirectionsPins extends Component {
   constructor(){
     super()
     this.state = {
-      isWindowOpen: false
+      isWindowOpen: true
     }
   }
 

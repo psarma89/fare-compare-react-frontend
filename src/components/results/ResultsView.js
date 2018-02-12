@@ -51,6 +51,9 @@ class ResultsView extends Component {
   handleSort = clickedColumn => () => {
     const { column, data, direction } = this.state
 
+    // const sortedData = _.orderBy(data, [d => d.clickedColumn.toLowerCase()], ['asc'])
+    console.log(column, clickedColumn, data, direction)
+
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
@@ -81,23 +84,27 @@ class ResultsView extends Component {
         <Table sortable celled fixed>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'service' ? direction : null} onClick={this.handleSort('service')}>
+              <Table.HeaderCell>
                 Service
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
-                Estimate
+                Estimate ($)
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'driver' ? direction : null} onClick={this.handleSort('driver')}>
                 Drive Earnings ($)
               </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'duration' ? direction : null} onClick={this.handleSort('duration')}>
+                Duration (mins)
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ service, estimate, driver }, i) => (
+            {_.map(data, ({ service, estimate, driver, duration }, i) => (
               <Table.Row key={i}>
                 <Table.Cell>{service}</Table.Cell>
                 <Table.Cell>{estimate}</Table.Cell>
                 <Table.Cell>{driver}</Table.Cell>
+                <Table.Cell>{duration}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>

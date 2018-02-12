@@ -105,15 +105,17 @@ const getUberProductData = (source) => {
 }
 
 const formatUberPriceEstimates = (prices, products) => {
+  console.log(prices, products)
+
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
     const modal = <UberModal price={price} product={product}/>
     return {
       service: modal,
-      estimate: price.estimate,
-      duration: (price.duration/60).toFixed(),
+      estimate: Math.round((price.low_estimate + price.high_estimate)/2),
+      duration: Math.round(price.duration/60),
       distance: price.distance,
-      driver: `$${(price.low_estimate * .75).toFixed()}-${(price.high_estimate * .75).toFixed()}`
+      driver: Math.round((price.low_estimate + price.high_estimate)*.75/2)
     }
   })
 }
@@ -147,15 +149,16 @@ const getLyftProductData = (source) => {
 }
 
 const formatLyftPriceEstimates = (prices, products) => {
+  console.log(prices, products)
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
     const modal = <LyftModal price={price} product={product}/>
     return {
       service: modal,
-      estimate: `$${(price.estimated_cost_cents_min/100).toFixed()}-${(price.estimated_cost_cents_max/100).toFixed()}`,
-      duration: (price.estimated_duration_seconds/60).toFixed(),
+      estimate: Math.round(price.estimated_cost_cents_min/100),
+      duration: Math.round(price.estimated_duration_seconds/60),
       distance: price.estimated_distance_miles,
-      driver: `$${(price.estimated_cost_cents_min * .8/100).toFixed()}-${(price.estimated_cost_cents_max * .8/100).toFixed()}`
+      driver: Math.round(price.estimated_cost_cents_min * .8/100)
     }
   })
 }
@@ -170,12 +173,13 @@ const getTaxiPriceData = (source, destination) => {
 
 const formatTaxiPriceEstimates = (prices) => {
   const modal = <TaxiModal price={prices} />
+  console.log(prices)
   return {
     service: modal,
-    estimate: `$${(prices.total_fare - prices.tip_amount).toFixed()}-${(prices.total_fare - prices.tip_amount).toFixed()}`,
-    duration: (prices.duration/60).toFixed(),
-    distance: (prices.distance/1609.344).toFixed(),
-    driver: `$${((prices.total_fare - prices.tip_amount)*.66).toFixed()}-${((prices.total_fare - prices.tip_amount)*.66).toFixed()}`
+    estimate: Math.round(prices.total_fare - prices.tip_amount),
+    duration: Math.round(prices.duration/60),
+    distance: Math.round(prices.distance/1609.344),
+    driver: Math.round((prices.total_fare - prices.tip_amount)*.66)
   }
 }
 

@@ -7,6 +7,8 @@ import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import * as actions from '../../actions';
 import LyftPins from './LyftPins'
 
+let counter = 0;
+
 class Map extends Component{
 
   constructor(){
@@ -20,11 +22,9 @@ class Map extends Component{
     this.props.getLocation()
   }
 
-  componentDidMount() {
-    // this.props.getNearestLyftCoords(this.props.location)
-  }
-
   componentWillReceiveProps(nextProps) {
+    counter++
+    console.log(counter)
     this.props.getNearestRidesInfo(nextProps.location)
   }
 
@@ -41,7 +41,7 @@ class Map extends Component{
   }
 
   render(){
-    console.log(this.props.etas, this.props.location)
+    // console.log(this.props.etas, this.props.location)
     const {location} = this.props
     const {uberEtaDisplay, lyftEtaDisplay, nearbyLyftCoords} = this.props.etas
 

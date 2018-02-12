@@ -6,7 +6,7 @@ import TaxiModal from '../components/results/TaxiModal';
 const API_ROOT = `http://localhost:3000/api/v1`;
 const UBER_ROOT = `https://api.uber.com/v1.2`;
 const LYFT_ROOT = `https://api.lyft.com/v1`;
-const TAXI_ROOT = 'http://localhost:3000/api/v1/taxi_fare';
+const TAXI_ROOT = `http://localhost:3000/api/v1/taxi_fare`;
 
 const headers = {
   'Content-Type': 'application/json',

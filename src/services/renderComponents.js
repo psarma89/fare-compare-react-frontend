@@ -4,44 +4,50 @@ import DirectionsMap from '../components/results/DirectionsMap';
 
 const emailComponent = (email,handleChange) => {
   return(
-    <div className="ui field">
-      <label>Email</label>
-      <input
-        name="email"
-        placeholder="email"
-        value={email}
-        onChange={handleChange}
-      />
+    <div className="field">
+      <div className="ui left icon input">
+        <i className="user icon"></i>
+        <input
+          name="email"
+          placeholder="Enter Email"
+          value={email}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   )
 }
 
 const passwordComponent = (password, handleChange) => {
   return (
-    <div className="ui field">
-      <label>Password</label>
-      <input
-        name="password"
-        type="password"
-        placeholder="password"
-        value={password}
-        onChange={handleChange}
-      />
+    <div className="field">
+      <div className="ui left icon input">
+        <i className="lock icon"></i>
+        <input
+          name="password"
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   )
 }
 
 const passwordConfirmationComponent = (password, handleChange) => {
   return (
-    <div className="ui field">
-      <label>Password Confirmation</label>
-      <input
-        name="passwordConfirmation"
-        type="password"
-        placeholder="password"
-        value={password}
-        onChange={handleChange}
-      />
+    <div className="field">
+      <div className="ui left icon input">
+        <i className="lock icon"></i>
+        <input
+          name="passwordConfirmation"
+          type="password"
+          placeholder="Confirm Password"
+          value={password}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   )
 }

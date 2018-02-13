@@ -5,27 +5,27 @@ import { withRouter } from 'react-router-dom';
 const navComponents = (url) => {
   if (url === "/login" || url === "/") {
     return(
-      <div className="ui massive inverted stackable menu">
+      <div className="ui massive inverted stackable container menu" id="navbar-background">
         <div className="item">
-          <img src="/images/logo.png" alt=""/>
+          <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
-        <a className="item" href="signup">Sign Up</a>
+        <a className="item" href="/signup">Sign Up</a>
       </div>
     )
   }else if (url === "/signup") {
     return(
-      <div className="ui massive inverted stackable menu">
+      <div className="ui massive inverted stackable container menu" id="navbar-background">
         <div className="item">
-          <img src="/images/logo.png" alt=""/>
+          <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/login">Log In</a>
       </div>
     )
   }else if (url === "/reset") {
     return(
-      <div className="ui massive inverted stackable menu">
+      <div className="ui massive inverted stackable container menu" id="navbar-background">
         <div className="item">
-          <img src="/images/logo.png" alt=""/>
+          <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/login">Log In</a>
         <a className="item" href="/signup">Sign Up</a>

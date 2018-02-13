@@ -1,9 +1,19 @@
 import React from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react'
 
+const formatProducts = (businesses) => {
+  businesses.map(business => {
+    return(
+        <p>{`${business.name}, ${business.phone}, ${business.type}`}</p>
+    )
+  })
+}
+
 const TaxiModal = (props) => {
-  const { price } = props
+  const { price, product, eta } = props
   // console.log(price)
+  const productsToDisplay = product && product.businesses ? formatProducts(product.businesses) : null
+
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">Taxi Cab</a>} closeIcon>
       <Header icon='car' content={"Taxi Cab"} as='h1'/>
@@ -19,11 +29,21 @@ const TaxiModal = (props) => {
         <p>Capacity: Varies</p>
       </Modal.Content>
       <Modal.Content>
+        <h2>Driver Info</h2>
+        <p>Earning: {`$${Math.round((price.total_fare - price.tip_amount)*.66)}`}</p>
+        <p>Eta: {eta} minutes</p>
+      </Modal.Content>
+      <Modal.Content>
         <h2>Fare Info</h2>
         <p>Base Fare: {`$${price.initial_fare}`}</p>
         <p>Metered Fare: {`$${price.metered_fare}`}</p>
         <p>Estimate: {`$${Math.round(price.total_fare - price.tip_amount)}`}</p>
       </Modal.Content>
+      <Modal.Content>
+        <h2>Nearby Taxi Businesses</h2>
+        {productsToDisplay}
+      </Modal.Content>
+
     </Modal>
 
   )

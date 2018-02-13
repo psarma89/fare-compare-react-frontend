@@ -3,7 +3,14 @@ import { Button, Header, Modal, Image } from 'semantic-ui-react'
 import _ from 'lodash';
 
 const UberModal = (props) => {
-  const { price, product } = props
+  const { price, product, eta } = props
+  const source = JSON.parse(localStorage.getItem('source'))
+  const destination = JSON.parse(localStorage.getItem('destination'))
+  const startAddress = localStorage.getItem('startAddress')
+  const endAddress = localStorage.getItem('endAddress')
+
+  const url = `https://m.uber.com/looking/finalize?pickup={"latitude":${source.lat},"longitude":${source.lng},"title":${startAddress.split(",")[0]}}&destination={"latitude":${destination.lat},"longitude":${destination.lng},"title":${endAddress.split(",")[0]}}`
+
   // console.log(product)
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">{price.display_name}</a>} closeIcon>
@@ -21,20 +28,26 @@ const UberModal = (props) => {
         <p>Surge: {price.surge_multiplier > 1.0 ? "Yes" : "No"}</p>
       </Modal.Content>
       <Modal.Content>
+        <h2>Driver Info</h2>
+        <p>Earning: {`$${Math.round((price.low_estimate + price.high_estimate)*.75/2)}`}</p>
+        <p>Eta: {Math.round(eta.estimate/60)} minutes</p>
+      </Modal.Content>
+      <Modal.Content>
         <h2>Fare Info</h2>
         <p>Base Fare: {product.price_details.base}</p>
         <p>Cost Per Distance: {product.price_details.cost_per_distance}</p>
         <p>Cost Per Mile: {product.price_details.cost_per_minute}</p>
         <p>Cancellation Fee: {`$${product.price_details.cancellation_fee}`}</p>
-        <p>Total: {`$${Math.round((price.low_estimate + price.high_estimate)/2)}`}</p>
+        <p>Estimate: {`$${Math.round((price.low_estimate + price.high_estimate)/2)}`}</p>
       </Modal.Content>
 
       <Modal.Actions>
-        <Button positive icon='arrow right' labelPosition='left' content="Get Uber" onClick={this.close} />
+        <Button positive icon='arrow right' labelPosition='left' content="Get Uber" onClick={() => window.open(encodeURI(url))} />
       </Modal.Actions>
     </Modal>
 
   )
 }
+
 
 export default UberModal;

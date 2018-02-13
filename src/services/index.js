@@ -6,7 +6,7 @@ import TaxiModal from '../components/results/TaxiModal';
 const API_ROOT = `http://localhost:3000/api/v1`;
 const UBER_ROOT = `https://api.uber.com/v1.2`;
 const LYFT_ROOT = `https://api.lyft.com/v1`;
-const TAXI_ROOT = `http://localhost:3000/api/v1/taxi_fare`;
+const TAXI_ROOT = `http://localhost:3000/api/v1`;
 
 const headers = {
   'Content-Type': 'application/json',
@@ -104,16 +104,18 @@ const getUberProductData = (source) => {
   }).then(res => res.json());
 }
 
-const formatUberPriceEstimates = (prices, products) => {
-  console.log(prices, products)
+const formatUberPriceEstimates = (prices, products, etas) => {
+  // console.log(prices, products)
 
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
-    const modal = <UberModal price={price} product={product}/>
+    const eta = etas.find(eta => eta.display_name === price.display_name)
+    const modal = <UberModal price={price} product={product} eta={eta}/>
     return {
       service: modal,
       estimate: Math.round((price.low_estimate + price.high_estimate)/2),
       duration: Math.round(price.duration/60),
+      eta: Math.round(eta.estimate/60),
       distance: price.distance,
       driver: Math.round((price.low_estimate + price.high_estimate)*.75/2)
     }
@@ -148,15 +150,17 @@ const getLyftProductData = (source) => {
   }).then(res => res.json());
 }
 
-const formatLyftPriceEstimates = (prices, products) => {
-  console.log(prices, products)
+const formatLyftPriceEstimates = (prices, products, etas) => {
+  // console.log(prices, products)
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
-    const modal = <LyftModal price={price} product={product}/>
+    const eta = etas.find(eta => eta.display_name === price.display_name)
+    const modal = <LyftModal price={price} product={product} eta={eta}/>
     return {
       service: modal,
       estimate: Math.round(price.estimated_cost_cents_min/100),
       duration: Math.round(price.estimated_duration_seconds/60),
+      eta: Math.round(eta.eta_seconds/60),
       distance: price.estimated_distance_miles,
       driver: Math.round(price.estimated_cost_cents_min * .8/100)
     }
@@ -164,20 +168,30 @@ const formatLyftPriceEstimates = (prices, products) => {
 }
 
 const getTaxiPriceData = (source, destination) => {
-  return fetch(TAXI_ROOT, {
+  return fetch(`${TAXI_ROOT}/taxi_fare`, {
     method: 'POST',
     headers: taxiHeaders,
     body: JSON.stringify({source, destination})
   }).then(resp => resp.json());
 }
 
-const formatTaxiPriceEstimates = (prices) => {
-  const modal = <TaxiModal price={prices} />
-  console.log(prices)
+const getTaxiBusinessData = (source) => {
+  return fetch(`${TAXI_ROOT}/businesses`, {
+    method: 'POST',
+    headers: taxiHeaders,
+    body: JSON.stringify({source})
+  }).then(resp => resp.json());
+}
+
+const formatTaxiPriceEstimates = (prices, products) => {
+  // console.log(products)
+
+  const modal = <TaxiModal price={prices} product={products} eta={'--'}/>
   return {
     service: modal,
     estimate: Math.round(prices.total_fare - prices.tip_amount),
     duration: Math.round(prices.duration/60),
+    eta: '--',
     distance: Math.round(prices.distance/1609.344),
     driver: Math.round((prices.total_fare - prices.tip_amount)*.66)
   }
@@ -209,6 +223,7 @@ export const adapter = {
   },
   taxi: {
     getTaxiPriceData,
+    getTaxiBusinessData,
     formatTaxiPriceEstimates
   }
 };

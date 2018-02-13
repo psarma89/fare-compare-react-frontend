@@ -30,21 +30,32 @@ class Reset extends React.Component {
 
   render() {
     const { fields } = this.state;
-    return (
-      <div>
-        <NavBar />
-        {this.props.error ? <h1>{this.props.error}</h1> : null}
-        <h2>Reset Page</h2>
-        <div className="ui form">
-          <form onSubmit={this.handleSubmit}>
-            {renderComponents.auth.emailComponent(fields.email, this.handleChange)}
-            {renderComponents.auth.passwordComponent(fields.password, this.handleChange)}
-            <button type="submit" className="ui basic green button">
-              Update Password
-            </button>
-          </form>
+    const {emailComponent, passwordComponent} = renderComponents.auth
+    const {error} = this.props
 
+    return (
+      <div id="reset">
+        <NavBar />
+
+        <div className="ui center aligned inverted segment container" id="reset-box">
+
+          <div className="ui centered header">
+            <h1 className="font">Reset Password</h1>
+          </div>
+
+          <form className="ui form" onSubmit={this.handleSubmit}>
+            {emailComponent(fields.email, this.handleChange)}
+            {passwordComponent(fields.password, this.handleChange)}
+
+            <div className="one ui buttons">
+              <button className="ui blue large button">Update Password</button>
+            </div>
+          </form>
         </div>
+
+        {error ? <div className="ui center aligned inverted segment container" id="error-box">
+          <h1>{error}</h1>
+        </div> : null}
       </div>
     );
   }

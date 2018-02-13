@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initialState = { currentUser: {}, currentLocation: {lat: 40.7654941,lng: -73.9838659, address: ''}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', nearbyLyftCoords: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
+const initialState = { currentUser: {}, currentLocation: {lat: 40.7654941,lng: -73.9838659, address: ''}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', nearbyLyftCoords: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: '', taxiProducts: ''}};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
       const { error } = action.user;
       return { ...state, currentUser: {error} };
     case 'LOGOUT_USER':
-      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', nearbyLyftCoords: ''}, results: { uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: ''}};
+      return { ...state, currentUser: {}, currentLocation: {}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', nearbyLyftCoords: ''}, results: { uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: '', taxiProducts: ''}};
     default:
       return state;
   }
@@ -62,11 +62,13 @@ const locReducer = (state = initialState, action) => {
 
 const rideReducer = (state = initialState, action) => {
 
-  const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices} = action
+  const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, taxiProducts} = action
+  const uberEtaDisplay = action.uberETA
+  const lyftEtaDisplay = action.lyftETA
 
   switch (action.type) {
     case 'SET_PRICE_DATA':
-      return { ...state, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices}};
+      return { ...state, etas: {...state.results, uberEtaDisplay, lyftEtaDisplay}, results: {...state.results, uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, taxiProducts}};
     default:
       return state;
   }

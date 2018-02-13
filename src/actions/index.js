@@ -166,17 +166,21 @@ export const updateDestination = (endAddress, history) => dispatch => {
 export const getRidePriceEstimates = (source, destination) => dispatch => {
   dispatch({ type: 'ASYNC_START' });
 
-  const {getUberPriceData, getUberProductData} = adapter.uber
-  const {getLyftPriceData, getLyftProductData} = adapter.lyft
-  const {getTaxiPriceData} = adapter.taxi
+  const {getUberPriceData, getUberProductData, getNearestUberEta} = adapter.uber
+  const {getLyftPriceData, getLyftProductData, getNearestLyftEta} = adapter.lyft
+  const {getTaxiPriceData, getTaxiBusinessData} = adapter.taxi
 
-  Promise.all([getUberPriceData(source, destination), getUberProductData(source), getLyftPriceData(source, destination), getLyftProductData(source), getTaxiPriceData(source,destination)]).then(values => {
+  Promise.all([getUberPriceData(source, destination), getUberProductData(source), getNearestUberEta(source), getLyftPriceData(source, destination), getLyftProductData(source), getNearestLyftEta(source), getTaxiPriceData(source,destination), getTaxiBusinessData(source)]).then(values => {
     const uberPrices = values[0];
     const uberProducts = values[1];
-    const lyftPrices = values[2];
-    const lyftProducts = values[3];
-    const taxiPrices = values[4];
-    dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices});
+    const lyftPrices = values[3];
+    const lyftProducts = values[4];
+    const taxiPrices = values[6];
+    const taxiProducts = values[7];
+    const uberETA = values[2].times || []
+    const lyftETA = values[5].eta_estimates || []
+
+    dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, taxiProducts, uberETA, lyftETA});
   })
 }
 

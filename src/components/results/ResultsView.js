@@ -37,11 +37,12 @@ class ResultsView extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices} = nextProps.results
+    const {uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, taxiProducts} = nextProps.results
+    const {lyftEtaDisplay, uberEtaDisplay} = nextProps.etas
 
-    const uberData = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products)
-    const lyftData = adapter.lyft.formatLyftPriceEstimates(lyftPrices.cost_estimates, lyftProducts.ride_types)
-    const taxiData = adapter.taxi.formatTaxiPriceEstimates(taxiPrices)
+    const uberData = adapter.uber.formatUberPriceEstimates(uberPrices.prices, uberProducts.products, uberEtaDisplay)
+    const lyftData = adapter.lyft.formatLyftPriceEstimates(lyftPrices.cost_estimates, lyftProducts.ride_types, lyftEtaDisplay)
+    const taxiData = adapter.taxi.formatTaxiPriceEstimates(taxiPrices, taxiProducts)
     const data = [...lyftData, taxiData, ...uberData]
 
     this.setState({data})
@@ -52,7 +53,6 @@ class ResultsView extends Component {
     const { column, data, direction } = this.state
 
     // const sortedData = _.orderBy(data, [d => d.clickedColumn.toLowerCase()], ['asc'])
-    console.log(column, clickedColumn, data, direction)
 
     if (column !== clickedColumn) {
       this.setState({
@@ -71,7 +71,7 @@ class ResultsView extends Component {
   }
 
   render() {
-    // console.log(this.state)
+    // console.log(this.props)
     const { column, data, direction } = this.state
     const {startAddress, endAddress} = localStorage
 
@@ -90,8 +90,8 @@ class ResultsView extends Component {
               <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
                 Estimate ($)
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'driver' ? direction : null} onClick={this.handleSort('driver')}>
-                Drive Earnings ($)
+              <Table.HeaderCell sorted={column === 'eta' ? direction : null} onClick={this.handleSort('eta')}>
+                ETA (mins)
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'duration' ? direction : null} onClick={this.handleSort('duration')}>
                 Duration (mins)
@@ -99,11 +99,11 @@ class ResultsView extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ service, estimate, driver, duration }, i) => (
+            {_.map(data, ({ service, estimate, eta, duration }, i) => (
               <Table.Row key={i}>
                 <Table.Cell>{service}</Table.Cell>
                 <Table.Cell>{estimate}</Table.Cell>
-                <Table.Cell>{driver}</Table.Cell>
+                <Table.Cell>{eta}</Table.Cell>
                 <Table.Cell>{duration}</Table.Cell>
               </Table.Row>
             ))}
@@ -116,7 +116,8 @@ class ResultsView extends Component {
 
 const mapStateToProps = state => ({
   search: state.loc.search,
-  results: state.res.results
+  results: state.res.results,
+  etas: state.res.etas
 });
 
 export default withRouter(connect(mapStateToProps, actions)(ResultsView))

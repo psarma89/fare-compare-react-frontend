@@ -20,6 +20,7 @@ class DirectionsPins extends Component {
     const distance = direction.routes[0].legs[0].distance.text
     const duration = direction.routes[0].legs[0].duration.text
     const travelMode = direction.request.travelMode
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${direction.request.origin.location.lat() + ',' + direction.request.origin.location.lng()}&destination=${direction.request.destination.location.lat() + ',' + direction.request.destination.location.lng()}&travelmode=${travelMode.toLowerCase()}`
 
     const options = {
       polylineOptions: {
@@ -42,7 +43,7 @@ class DirectionsPins extends Component {
             onCloseClick={this.onWindowToggleOpen}
             >
               <div>
-                <h4>Directions: {travelMode}</h4>
+                <h4><a target="_blank" href={url}>{travelMode} Directions</a></h4>
                 <p>Distance: {distance}</p>
                 <p>Duration: {duration}</p>
               </div>

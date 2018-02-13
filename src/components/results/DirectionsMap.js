@@ -44,9 +44,9 @@ class DirectionsMap extends Component{
     const directions = _.compact(this.state.directions)
     const directionsProperties = {
       "DRIVING": {color: "yellow", icon: 'http://maps.google.com/mapfiles/ms/micons/cabs.png', divisor: 2},
-      "TRANSIT": {color: "blue", icon: 'http://maps.google.com/mapfiles/ms/micons/subway.png', divisor: 3},
-      "WALKING": {color: "magenta", icon: 'http://maps.google.com/mapfiles/ms/micons/hiker.png', divisor: 4},
-      "BICYCLING": {color: "purple", icon: 'http://maps.google.com/mapfiles/ms/micons/cycling.png', divisor: 5}
+      "TRANSIT": {color: "blue", icon: 'http://maps.google.com/mapfiles/ms/micons/subway.png', divisor: 2.5},
+      "WALKING": {color: "magenta", icon: 'http://maps.google.com/mapfiles/ms/micons/hiker.png', divisor: 3},
+      "BICYCLING": {color: "purple", icon: 'http://maps.google.com/mapfiles/ms/micons/cycling.png', divisor: 1.5}
     }
 
     const directionsToRender = directions.map((direction,index) => {

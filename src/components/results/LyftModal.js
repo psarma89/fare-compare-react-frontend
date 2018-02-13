@@ -3,7 +3,8 @@ import { Button, Header, Modal, Image } from 'semantic-ui-react'
 import _ from 'lodash';
 
 const LyftModal = (props) => {
-  const { price, product } = props
+  const { price, product, eta } = props
+  const url = 'https://www.lyft.com/signup'
   // console.log(product)
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">{price.display_name}</a>} closeIcon>
@@ -20,6 +21,11 @@ const LyftModal = (props) => {
         <p>Surge: {price.primetime_percentage !== "0%" ? `Y, ${price.primetime_percentage}` : "N"}</p>
       </Modal.Content>
       <Modal.Content>
+        <h2>Driver Info</h2>
+        <p>Earning: {`$${Math.round(price.estimated_cost_cents_min*.8/100)}`}</p>
+        <p>Eta: {Math.round(eta.eta_seconds/60)} minutes</p>
+      </Modal.Content>
+      <Modal.Content>
         <h2>Fare Info</h2>
         <p>Base Fare: {_.round(product.pricing_details.base_charge/100, 2)}</p>
         <p>Cost Per Mile: {_.round(product.pricing_details.cost_per_mile/100,2)}</p>
@@ -29,7 +35,7 @@ const LyftModal = (props) => {
       </Modal.Content>
 
       <Modal.Actions>
-        <Button positive icon='arrow right' labelPosition='left' content="Get Lyft" onClick={this.close} />
+        <Button positive icon='arrow right' labelPosition='left' content="Get Lyft" onClick={() => window.open(encodeURI(url))} />
       </Modal.Actions>
     </Modal>
 

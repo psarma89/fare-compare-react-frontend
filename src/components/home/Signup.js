@@ -32,21 +32,33 @@ class Signup extends React.Component {
   render() {
     // console.log(this.props)
     const { fields } = this.state;
+    const {emailComponent, passwordComponent, passwordConfirmationComponent} = renderComponents.auth
+    const {error} = this.props
+
     return (
-      <div>
+      <div id="signup">
         <NavBar />
-        {this.props.error ? <h1>{this.props.error}</h1> : null}
-        <h2>Sign Up Page</h2>
-        <div className="ui form">
-          <form onSubmit={this.handleSubmit}>
-            {renderComponents.auth.emailComponent(fields.email, this.handleChange)}
-            {renderComponents.auth.passwordComponent(fields.password, this.handleChange)}
-            {renderComponents.auth.passwordConfirmationComponent(fields.passwordConfirmation, this.handleChange)}
-            <button type="submit" className="ui basic green button">
-              Signup
-            </button>
+
+        <div className="ui center aligned inverted segment container" id="signup-box">
+
+          <div className="ui centered header">
+            <h1 className="font">Create Account</h1>
+          </div>
+
+          <form className="ui form" onSubmit={this.handleSubmit}>
+            {emailComponent(fields.email, this.handleChange)}
+            {passwordComponent(fields.password, this.handleChange)}
+            {passwordConfirmationComponent(fields.passwordConfirmation, this.handleChange)}
+
+            <div className="one ui buttons">
+              <button className="ui blue large button">Create Account</button>
+            </div>
           </form>
         </div>
+
+        {error ? <div className="ui center aligned inverted segment container" id="error-box">
+          <h1>{error}</h1>
+        </div> : null}
       </div>
     );
   }

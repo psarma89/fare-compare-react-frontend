@@ -10,6 +10,9 @@ const navComponents = (url) => {
           <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/signup">Sign Up</a>
+        <div class="right menu" id="logo-div">
+          <h1 id="logo-h1" class="item">Fare Compare</h1>
+        </div>
       </div>
     )
   }else if (url === "/signup") {
@@ -19,6 +22,9 @@ const navComponents = (url) => {
           <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/login">Log In</a>
+        <div class="right menu" id="logo-div">
+          <h1 id="logo-h1" class="item">Fare Compare</h1>
+        </div>
       </div>
     )
   }else if (url === "/reset") {
@@ -29,6 +35,9 @@ const navComponents = (url) => {
         </div>
         <a className="item" href="/login">Log In</a>
         <a className="item" href="/signup">Sign Up</a>
+        <div class="right menu" id="logo-div">
+          <h1 id="logo-h1" class="item">Fare Compare</h1>
+        </div>        
       </div>
     )
   }else {

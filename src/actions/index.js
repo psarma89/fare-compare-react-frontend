@@ -47,7 +47,7 @@ const dispatchAuth = (user, location, history, dispatch) => {
     history.push('/profile')
   }else {
     dispatch({ type: 'SHOW_LOGIN_ERROR', user });
-    history.push('/login')
+    // history.push('/login')
   }
 }
 

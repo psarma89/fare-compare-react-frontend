@@ -34,10 +34,10 @@ class Login extends React.Component {
     const {error} = this.props
 
     return (
-      <div id="login">
+      <div id="auth">
         <NavBar />
 
-        <div className="ui center aligned inverted segment container" id="login-box">
+        <div className="ui center aligned inverted segment container" id="auth-box">
 
           <div className="ui centered header">
             <h1 className="font">Sign Into Your Account</h1>
@@ -47,20 +47,20 @@ class Login extends React.Component {
             {emailComponent(fields.email, this.handleChange)}
             {passwordComponent(fields.password, this.handleChange)}
 
-            <div className="field">
-              <NavLink to="/reset">
+            <div className="field" >
+              <NavLink to="/reset" id="forgot-password">
                 Forgot Password
               </NavLink>
             </div>
 
             <div className="one ui buttons">
-              <button className="ui blue large button">Sign In</button>
+              <button className="ui grey large button">Sign In</button>
             </div>
           </form>
         </div>
 
         {error ? <div className="ui center aligned inverted segment container" id="error-box">
-          <h1>{error}</h1>
+          <h2 id="error-h2">{error}</h2>
         </div> : null}
       </div>
 

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 import { adapter } from '../../services';
-import { Table } from 'semantic-ui-react';
+import { Table, Checkbox } from 'semantic-ui-react';
 import {renderComponents} from '../../services/renderComponents';
 
 class ResultsView extends Component {
@@ -81,6 +81,10 @@ class ResultsView extends Component {
         <p>Destination: {endAddress}</p>
         {renderComponents.map.directionComponent()}
         <h1>Results</h1>
+        <Checkbox label='Shared' />
+        <Checkbox label='Shared' />
+        <Checkbox label='Shared' />
+        
         <Table sortable celled fixed>
           <Table.Header>
             <Table.Row>

@@ -4,41 +4,43 @@ body {
 }
 
 #navbar-background {
-  background-color: #242424;
+  background-color: #413d36;
   border-radius: 5px;
 }
 
-#login {
+#auth {
   background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vfv9BDZagiltwcyiq/road-tunnel-ride-travel-transportation-highway-and-logistics-background-loop_rw2wzzg8__F0000.png);
   height: 100vh;
 }
 
-#login-box {
-  background-color: #3c3c3c;
+#auth-box {
+  background-color: #413d36;
   border-radius: 5px;
-}
-
-#reset {
-  background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vfv9BDZagiltwcyiq/road-tunnel-ride-travel-transportation-highway-and-logistics-background-loop_rw2wzzg8__F0000.png);
-  height: 100vh;
-}
-
-#reset-box {
-  background-color: #3c3c3c;
-  border-radius: 5px;
-}
-
-#signup {
-  background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vfv9BDZagiltwcyiq/road-tunnel-ride-travel-transportation-highway-and-logistics-background-loop_rw2wzzg8__F0000.png);
-  height: 100vh;
-}
-
-#signup-box {
-  background-color: #3c3c3c;
-  border-radius: 5px;
+  width: 25%;
+  margin-top: 100px;
 }
 
 #error-box {
-  background-color: maroon;
+  background-color: #ead582;
   border-radius: 5px;
+  width: 25%;
+}
+
+#error-h2 {
+  color: black;
+}
+
+#logo-div {
+  background-color: #ead582;
+  font-family: 'Playball', cursive;
+}
+
+#logo-h1 {
+  font-family: 'Playball', cursive;
+  color: black;
+  font-size: 30px;
+}
+
+#forgot-password {
+  color: white
 }

@@ -34,10 +34,10 @@ class Reset extends React.Component {
     const {error} = this.props
 
     return (
-      <div id="reset">
+      <div id="auth">
         <NavBar />
 
-        <div className="ui center aligned inverted segment container" id="reset-box">
+        <div className="ui center aligned inverted segment container" id="auth-box">
 
           <div className="ui centered header">
             <h1 className="font">Reset Password</h1>
@@ -48,13 +48,13 @@ class Reset extends React.Component {
             {passwordComponent(fields.password, this.handleChange)}
 
             <div className="one ui buttons">
-              <button className="ui blue large button">Update Password</button>
+              <button className="ui grey large button">Update Password</button>
             </div>
           </form>
         </div>
 
         {error ? <div className="ui center aligned inverted segment container" id="error-box">
-          <h1>{error}</h1>
+          <h2 id="error-h2">{error}</h2>
         </div> : null}
       </div>
     );

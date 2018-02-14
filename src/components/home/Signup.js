@@ -36,10 +36,10 @@ class Signup extends React.Component {
     const {error} = this.props
 
     return (
-      <div id="signup">
+      <div id="auth">
         <NavBar />
 
-        <div className="ui center aligned inverted segment container" id="signup-box">
+        <div className="ui center aligned inverted segment container" id="auth-box">
 
           <div className="ui centered header">
             <h1 className="font">Create Account</h1>
@@ -51,13 +51,13 @@ class Signup extends React.Component {
             {passwordConfirmationComponent(fields.passwordConfirmation, this.handleChange)}
 
             <div className="one ui buttons">
-              <button className="ui blue large button">Create Account</button>
+              <button className="ui grey large button">Create Account</button>
             </div>
           </form>
         </div>
 
         {error ? <div className="ui center aligned inverted segment container" id="error-box">
-          <h1>{error}</h1>
+          <h2 id="error-h2">{error}</h2>
         </div> : null}
       </div>
     );

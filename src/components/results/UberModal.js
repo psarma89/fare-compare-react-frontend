@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Header, Modal, Image } from 'semantic-ui-react'
-import _ from 'lodash';
 
 const UberModal = (props) => {
   const { price, product, eta } = props

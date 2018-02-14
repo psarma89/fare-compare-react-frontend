@@ -3,7 +3,7 @@ import { Menu, Icon} from 'semantic-ui-react';
 
 const TopMenu = (props) => {
   return(
-    <Menu attached='top'>
+    <Menu attached='top' inverted >
       <Menu.Item
         name='menu'
         onClick={props.toggleVisibility}

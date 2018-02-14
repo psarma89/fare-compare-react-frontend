@@ -44,3 +44,23 @@ body {
 #forgot-password {
   color: white
 }
+
+#pusher, #basic-segment {
+  height: 100vh;
+}
+
+#ride-nearest {
+  background-color: #ead582;
+  color: black;
+  opacity: .75;
+  width: 220px;
+  padding: 10px;
+}
+
+#menu{
+  background-color: #1b1c1d;
+}
+
+p#profile {
+  font-size: 14px;
+}

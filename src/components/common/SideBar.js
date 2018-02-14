@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const SideBar = (props) => {
   return(
-    <Sidebar.Pushable as={Segment}>
+    <Sidebar.Pushable as={Segment} id="ui-segment-pushable">
       <Sidebar as={Menu} animation='slide out' width='thin' visible={props.visible} icon='labeled' vertical inverted>
         <Menu.Item name='ridenow'>
           <Icon name='taxi' />
@@ -29,8 +29,8 @@ const SideBar = (props) => {
           </NavLink>
         </Menu.Item>
       </Sidebar>
-      <Sidebar.Pusher>
-        <Segment basic>
+      <Sidebar.Pusher id="pusher">
+        <Segment basic id="basic-segment">
           {props.component}
         </Segment>
       </Sidebar.Pusher>

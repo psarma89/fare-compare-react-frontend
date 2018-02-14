@@ -130,7 +130,7 @@ export const getSearchData = () => dispatch => {
 };
 
 export const updateSource = (startAddress, currentLocation) => dispatch => {
-  dispatch({ type: 'ASYNC_START' });
+  // dispatch({ type: 'ASYNC_START' });
 
   geocodeByAddress(startAddress)
   .then(results => getLatLng(results[0]))
@@ -147,7 +147,7 @@ export const updateSource = (startAddress, currentLocation) => dispatch => {
 }
 
 export const updateDestination = (endAddress, history) => dispatch => {
-  dispatch({ type: 'ASYNC_START' });
+  // dispatch({ type: 'ASYNC_START' });
 
   geocodeByAddress(endAddress)
   .then(results => getLatLng(results[0]))
@@ -171,14 +171,14 @@ export const getRidePriceEstimates = (source, destination) => dispatch => {
   const {getTaxiPriceData, getTaxiBusinessData} = adapter.taxi
 
   Promise.all([getUberPriceData(source, destination), getUberProductData(source), getNearestUberEta(source), getLyftPriceData(source, destination), getLyftProductData(source), getNearestLyftEta(source), getTaxiPriceData(source,destination), getTaxiBusinessData(source)]).then(values => {
-    const uberPrices = values[0];
-    const uberProducts = values[1];
-    const lyftPrices = values[3];
-    const lyftProducts = values[4];
-    const taxiPrices = values[6];
-    const taxiProducts = values[7];
-    const uberETA = values[2].times || []
-    const lyftETA = values[5].eta_estimates || []
+    const uberPrices = values[0] || [];
+    const uberProducts = values[1] || [];
+    const lyftPrices = values[3] || [];
+    const lyftProducts = values[4] || [];
+    const taxiPrices = values[6] || [];
+    const taxiProducts = values[7] || [];
+    const uberETA = values[2].times || [];
+    const lyftETA = values[5].eta_estimates || [];
 
     dispatch({ type: 'SET_PRICE_DATA', uberPrices, uberProducts, lyftPrices, lyftProducts, taxiPrices, taxiProducts, uberETA, lyftETA});
   })
@@ -198,12 +198,12 @@ export const getNearestRidesInfo = (source) => dispatch => {
 
     const uberEtaDisplay = uberETA.map((eta,i) => {
       const uberMins = (eta.estimate/60).toFixed()
-      return <p key={i}>{`${eta.display_name} only ${uberMins} ${uberMins > 1 ? "mins" : "min"} away`}</p>
+      return <p id='profile' key={i}>{`${eta.display_name} only ${uberMins} ${uberMins > 1 ? "mins" : "min"} away`}</p>
     })
 
     const lyftEtaDisplay = lyftETA.map((eta,i) => {
       const lyftMins = (eta.eta_seconds/60).toFixed()
-      return <p key={i}>{`${eta.display_name} only ${lyftMins} ${lyftMins > 1 ? "mins" : "min"} away`}</p>
+      return <p id='profile' key={i}>{`${eta.display_name} only ${lyftMins} ${lyftMins > 1 ? "mins" : "min"} away`}</p>
     })
 
     const lyftGeoCoords = lyftLocations.map(driver => {

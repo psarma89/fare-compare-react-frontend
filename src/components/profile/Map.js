@@ -7,8 +7,6 @@ import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import * as actions from '../../actions';
 import LyftPins from './LyftPins'
 
-let counter = 0;
-
 class Map extends Component{
 
   constructor(){
@@ -23,8 +21,6 @@ class Map extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    counter++
-    console.log(counter)
     this.props.getNearestRidesInfo(nextProps.location)
   }
 
@@ -59,13 +55,13 @@ class Map extends Component{
           {this.state.isBoxOpen && <InfoBox
             onCloseClick={this.onBoxToggleOpen}
             position={new google.maps.LatLng(location.lat, location.lng)}
-            options={{ pixelOffset: new google.maps.Size(400,-300), closeBoxURL: ``}}
+            options={{ pixelOffset: new google.maps.Size(-650,-300), closeBoxURL: ``}}
             >
-            <div style={{ backgroundColor: `yellow`, opacity: 0.75, padding: `12px` }}>
-              <h4>{location.address? location.address : null}</h4>
-              <h4>Nearest Ubers</h4>
+            <div id="ride-nearest">
+              <h3>{location.address? location.address : null}</h3>
+              <h3>Nearest <font color='dimgrey'>Ubers</font></h3>
               {uberEtaDisplay? uberEtaDisplay : null}
-              <h4>Nearest Lyfts</h4>
+              <h3>Nearest <font color='Magenta'>Lyft</font></h3>
               {lyftEtaDisplay? lyftEtaDisplay : null}
             </div>
           </InfoBox>

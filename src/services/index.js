@@ -112,6 +112,7 @@ const formatUberPriceEstimates = (prices, products, etas) => {
     const eta = etas.find(eta => eta.display_name === price.display_name)
     const modal = <UberModal price={price} product={product} eta={eta}/>
     return {
+      color: 'black',
       service: modal,
       estimate: Math.round((price.low_estimate + price.high_estimate)/2),
       duration: Math.round(price.duration/60),
@@ -157,6 +158,7 @@ const formatLyftPriceEstimates = (prices, products, etas) => {
     const eta = etas.find(eta => eta.display_name === price.display_name)
     const modal = <LyftModal price={price} product={product} eta={eta}/>
     return {
+      color: 'pink',
       service: modal,
       estimate: Math.round(price.estimated_cost_cents_min/100),
       duration: Math.round(price.estimated_duration_seconds/60),
@@ -188,6 +190,7 @@ const formatTaxiPriceEstimates = (prices, products) => {
 
   const modal = <TaxiModal price={prices} product={products} eta={'--'}/>
   return {
+    color: 'yellow',
     service: modal,
     estimate: Math.round(prices.total_fare - prices.tip_amount),
     duration: Math.round(prices.duration/60),

@@ -7,6 +7,7 @@ import TopMenu from '../common/TopMenu';
 import MenuSearch from '../common/MenuSearch';
 import SideBar from '../common/SideBar';
 import {renderComponents} from '../../services/renderComponents';
+import { Dimmer, Loader} from 'semantic-ui-react';
 
 class Profile extends Component {
   state = { visible: false }
@@ -14,9 +15,12 @@ class Profile extends Component {
   toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
   render() {
+    // console.log(this.props)
     const { visible } = this.state
+    const {lyftGeoCoords} = this.props
 
     return (
+
       <div>
         <TopMenu toggleVisibility={this.toggleVisibility} menuSearch={<MenuSearch />}/>
         <SideBar visible={visible} component={renderComponents.map.mapComponent()} logoutUser={this.props.logoutUser}/>
@@ -25,4 +29,9 @@ class Profile extends Component {
   }
 }
 
-export default withAuth(withRouter(connect(null, actions)(Profile)));
+const mapStateToProps = state => ({
+  lyftGeoCoords: state.inf.etas.nearbyLyftCoords
+});
+
+
+export default withAuth(withRouter(connect(mapStateToProps, actions)(Profile)));

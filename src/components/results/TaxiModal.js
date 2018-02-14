@@ -16,10 +16,7 @@ const TaxiModal = (props) => {
 
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">Taxi Cab</a>} closeIcon>
-      <Header icon='car' content={"Taxi Cab"} as='h1'/>
-      <Modal.Description>
-        <p>This is a local taxi service in your locality</p>
-      </Modal.Description>
+      <Header color='yellow' icon='car' content={"Taxi Cab"} as='h1'/>
 
       <Modal.Content>
         <h2>Ride Info</h2>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Segment, Form, Button, Divider} from 'semantic-ui-react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { geocodeByAddress } from 'react-places-autocomplete';
 import * as actions from '../../actions';
@@ -58,8 +59,8 @@ class SearchForm extends Component {
   }
 
   render() {
-    console.log(this.props)
-    console.log(this.state)
+    // console.log(this.props)
+    // console.log(this.state)
     const {startAddress, endAddress} = this.state
     const {addresses, search} = this.props
 
@@ -83,26 +84,34 @@ class SearchForm extends Component {
 
     const previousSearches = addresses.map((address,i) => {
       return(
-        <div key={i}>
+        <Segment key={i} vertical>
           <Icon name='compass' />
-          <p data-id="address">{address[0]}</p>
-          <button onClick= {this.handleClick} name="source" type="button">Source</button>
-          <button onClick= {this.handleClick} name="destination" type="button">Destination</button>
-        </div>
+          <p id="address">{address[0]}</p>
+          <Button onClick= {this.handleClick} name="source" type="button">Origin</Button>
+          <Button onClick= {this.handleClick} name="destination" type="button">Destination</Button>
+        </Segment>
       )
     })
 
     return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label>Source</label>
-          <PlacesAutocomplete inputProps={inputPropsSource} classNames={cssClasses} />
-          <label>Destination</label>
-          <PlacesAutocomplete inputProps={inputPropsDestination} classNames={cssClasses} />
-          {search.error ? <p>{search.error}</p>: null}
-          <button type="submit">Submit</button>
-        </form>
-        <h3>Recent Searches</h3>
+      <div className='ui center aligned segment container' id='search-div'>
+        <Segment inverted id="search-box" basic>
+          <Form inverted onSubmit={this.handleFormSubmit}>
+            <label><h3>Origin</h3></label>
+            <PlacesAutocomplete inputProps={inputPropsSource} classNames={cssClasses} />
+            <Divider horizontal></Divider>
+            <label><h3>Destination</h3></label>
+            <PlacesAutocomplete inputProps={inputPropsDestination} classNames={cssClasses} />
+            <Divider horizontal></Divider>
+            <Button size= 'large' type='submit'>Submit</Button>
+          </Form>
+        </Segment>
+        {search.error ? <p id='error-destination'>{search.error}</p>: null}
+        <Divider horizontal></Divider>
+        <Divider horizontal></Divider>
+        <Divider horizontal></Divider>
+        <Divider horizontal></Divider>
+        <Divider horizontal><h2>Recent Searches</h2></Divider>
         {previousSearches}
       </div>
     )

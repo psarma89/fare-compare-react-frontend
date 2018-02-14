@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 import { adapter } from '../../services';
-import { Table, Checkbox } from 'semantic-ui-react';
+import { Table, Checkbox, Label } from 'semantic-ui-react';
 import {renderComponents} from '../../services/renderComponents';
+import { Segment, Divider} from 'semantic-ui-react';
 
 class ResultsView extends Component {
   constructor(props) {
@@ -71,48 +72,56 @@ class ResultsView extends Component {
   }
 
   render() {
-    // console.log(this.props)
+    console.log(this.props)
     const { column, data, direction } = this.state
     const {startAddress, endAddress} = localStorage
 
     return (
       <div>
-        <p>Start: {startAddress}</p>
-        <p>Destination: {endAddress}</p>
-        {renderComponents.map.directionComponent()}
-        <h1>Results</h1>
-        <Checkbox label='Shared' />
-        <Checkbox label='Shared' />
-        <Checkbox label='Shared' />
-        
-        <Table sortable celled fixed>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                Service
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
-                Estimate ($)
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'eta' ? direction : null} onClick={this.handleSort('eta')}>
-                ETA (mins)
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'duration' ? direction : null} onClick={this.handleSort('duration')}>
-                Duration (mins)
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {_.map(data, ({ service, estimate, eta, duration }, i) => (
-              <Table.Row key={i}>
-                <Table.Cell>{service}</Table.Cell>
-                <Table.Cell>{estimate}</Table.Cell>
-                <Table.Cell>{eta}</Table.Cell>
-                <Table.Cell>{duration}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+        <div className='ui center aligned segment container' id='search-div'>
+          <Segment inverted basic>
+            <p id="address"><b>Origin</b>: {startAddress}</p>
+            <p id="address"><b>Destination</b>: {endAddress}</p>
+          </Segment>
+        </div>
+        <Divider horizontal></Divider>
+        <Divider horizontal><h2>Results</h2></Divider>
+        <Divider horizontal></Divider>
+        <div className="ui horizontal segments">
+          <Segment attached="left">
+            {renderComponents.map.directionComponent()}
+          </Segment>
+          <Segment attached="right">
+            <Table sortable celled fixed striped color='black'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>
+                    Service
+                  </Table.HeaderCell>
+                  <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
+                    Estimate ($)
+                  </Table.HeaderCell>
+                  <Table.HeaderCell sorted={column === 'eta' ? direction : null} onClick={this.handleSort('eta')}>
+                    ETA (mins)
+                  </Table.HeaderCell>
+                  <Table.HeaderCell sorted={column === 'duration' ? direction : null} onClick={this.handleSort('duration')}>
+                    Duration (mins)
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {_.map(data, ({ color, service, estimate, eta, duration }, i) => (
+                  <Table.Row key={i}>
+                    <Table.Cell><Label color={color} ribbon>{service}</Label></Table.Cell>
+                    <Table.Cell>{estimate}</Table.Cell>
+                    <Table.Cell>{eta}</Table.Cell>
+                    <Table.Cell>{duration}</Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </Segment>
+        </div>
       </div>
     )
   }

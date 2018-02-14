@@ -13,11 +13,7 @@ const UberModal = (props) => {
   // console.log(product)
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">{price.display_name}</a>} closeIcon>
-      <Header icon={<Image src={product.image} />} content={price.display_name} as='h1'/>
-      <Modal.Description>
-        <p>{product.description}</p>
-      </Modal.Description>
-
+      <Header color='grey' icon={<Image src={product.image} />} content={price.display_name} as='h1'/>
       <Modal.Content>
         <h2>Ride Info</h2>
         <p>Distance: {price.distance} miles</p>
@@ -41,7 +37,7 @@ const UberModal = (props) => {
       </Modal.Content>
 
       <Modal.Actions>
-        <Button positive icon='arrow right' labelPosition='left' content="Get Uber" onClick={() => window.open(encodeURI(url))} />
+        <Button color='grey' content="Get Uber" onClick={() => window.open(encodeURI(url))} />
       </Modal.Actions>
     </Modal>
 

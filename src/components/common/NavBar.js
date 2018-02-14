@@ -10,8 +10,8 @@ const navComponents = (url) => {
           <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/signup">Sign Up</a>
-        <div class="right menu" id="logo-div">
-          <h1 id="logo-h1" class="item">Fare Compare</h1>
+        <div className="right menu" id="logo-div">
+          <h1 id="logo-h1" className="item">Fare Compare</h1>
         </div>
       </div>
     )
@@ -22,8 +22,8 @@ const navComponents = (url) => {
           <img src="https://st.depositphotos.com/1518313/4336/v/950/depositphotos_43361649-stock-illustration-circle-rainbow-letter-f.jpg" alt="logo"/>
         </div>
         <a className="item" href="/login">Log In</a>
-        <div class="right menu" id="logo-div">
-          <h1 id="logo-h1" class="item">Fare Compare</h1>
+        <div className="right menu" id="logo-div">
+          <h1 id="logo-h1" className="item">Fare Compare</h1>
         </div>
       </div>
     )
@@ -35,9 +35,9 @@ const navComponents = (url) => {
         </div>
         <a className="item" href="/login">Log In</a>
         <a className="item" href="/signup">Sign Up</a>
-        <div class="right menu" id="logo-div">
-          <h1 id="logo-h1" class="item">Fare Compare</h1>
-        </div>        
+        <div className="right menu" id="logo-div">
+          <h1 id="logo-h1" className="item">Fare Compare</h1>
+        </div>
       </div>
     )
   }else {

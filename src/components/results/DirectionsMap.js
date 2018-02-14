@@ -56,8 +56,7 @@ class DirectionsMap extends Component{
 
     return(
       <GoogleMap
-        zoom={16}
-        center={JSON.parse(localStorage.getItem('source'))}
+        zoom={18}
       >
         {directionsToRender.length > 0 ? directionsToRender : null}
         <TrafficLayer autoUpdate />

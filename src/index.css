@@ -32,7 +32,6 @@ body {
 
 #logo-div {
   background-color: #ead582;
-  font-family: 'Playball', cursive;
 }
 
 #logo-h1 {
@@ -42,11 +41,30 @@ body {
 }
 
 #forgot-password {
-  color: white
+  color: white;
+}
+
+#ui-segment-pushable {
+  height: 94%;
+  border-style: none;
+  margin: 0px;
+  border-radius: 0px;
 }
 
 #pusher, #basic-segment {
-  height: 100vh;
+  height: 94%;
+  padding: 0px;
+  border-style: none;
+}
+
+#top-menu {
+  border-radius: 0px;
+}
+
+#search-div{
+  height: 95%;
+  width: 50%;
+  border-style: none;
 }
 
 #ride-nearest {
@@ -61,6 +79,23 @@ body {
   background-color: #1b1c1d;
 }
 
+#results-map-segment{
+  width: 50%;
+  padding: 0px;
+}
+
 p#profile {
   font-size: 14px;
+}
+
+p#address {
+  font-size: 18px;
+}
+
+#error-destination {
+  color: red;
+}
+
+#results-segments{
+  padding: 0px;
 }

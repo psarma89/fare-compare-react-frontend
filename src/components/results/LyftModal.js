@@ -8,7 +8,7 @@ const LyftModal = (props) => {
   // console.log(product)
   return(
     <Modal size={'mini'} trigger={<a href="javascript:;">{price.display_name}</a>} closeIcon>
-      <Header icon={<Image src={product.image_url} />} content={price.display_name} as='h1'/>
+      <Header color='pink' icon={<Image src={product.image_url} />} content={price.display_name} as='h1'/>
       <Modal.Description>
       </Modal.Description>
 
@@ -35,7 +35,7 @@ const LyftModal = (props) => {
       </Modal.Content>
 
       <Modal.Actions>
-        <Button positive icon='arrow right' labelPosition='left' content="Get Lyft" onClick={() => window.open(encodeURI(url))} />
+        <Button color='pink' content="Get Lyft" onClick={() => window.open(encodeURI(url))} />
       </Modal.Actions>
     </Modal>
 

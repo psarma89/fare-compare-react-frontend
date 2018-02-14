@@ -44,8 +44,8 @@ class DirectionsPins extends Component {
             >
               <div>
                 <h4><a target="_blank" href={url}>{travelMode} Directions</a></h4>
-                <p>Distance: {distance}</p>
-                <p>Duration: {duration}</p>
+                <p><b>Distance</b>: {distance}</p>
+                <p><b>Duration</b>: {duration}</p>
               </div>
             </InfoWindow>
           }

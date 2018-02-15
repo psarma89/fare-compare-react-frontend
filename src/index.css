@@ -99,3 +99,8 @@ p#address {
 #results-segments{
   padding: 0px;
 }
+
+#checkbox-div {
+  width:10%;
+  margin:0 auto;
+}

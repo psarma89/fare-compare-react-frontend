@@ -4,9 +4,8 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 import { adapter } from '../../services';
-import { Table, Checkbox, Label } from 'semantic-ui-react';
+import { Table, Checkbox, Label, Segment, Divider } from 'semantic-ui-react';
 import {renderComponents} from '../../services/renderComponents';
-import { Segment, Divider} from 'semantic-ui-react';
 
 class ResultsView extends Component {
   constructor(props) {
@@ -14,6 +13,9 @@ class ResultsView extends Component {
     this.state = {
       column: null,
       data: [],
+      filteredData: [],
+      shared: true,
+      surge: true,
       direction: null
     }
   }
@@ -46,19 +48,19 @@ class ResultsView extends Component {
     const taxiData = adapter.taxi.formatTaxiPriceEstimates(taxiPrices, taxiProducts)
     const data = [...lyftData, taxiData, ...uberData]
 
-    this.setState({data})
+    this.setState({data, filteredData: data})
 
   }
 
   handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state
+    const { column, filteredData, direction } = this.state
 
-    // const sortedData = _.orderBy(data, [d => d.clickedColumn.toLowerCase()], ['asc'])
+    // const sortedData = _.orderBy(filteredData, [d => d.clickedColumn.toLowerCase()], ['asc'])
 
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
+        filteredData: _.sortBy(filteredData, [clickedColumn]),
         direction: 'ascending',
       })
 
@@ -66,14 +68,43 @@ class ResultsView extends Component {
     }
 
     this.setState({
-      data: data.reverse(),
+      filteredData: filteredData.reverse(),
       direction: direction === 'ascending' ? 'descending' : 'ascending',
     })
   }
 
+  handleCheckBoxes = (event) => {
+    const checkboxId = event.target.id
+    if (checkboxId === "shared") {
+      this.setState({shared: !this.state.shared}, this.filterData)
+    }
+
+    if (checkboxId === "surge") {
+      this.setState({surge: !this.state.surge}, this.filterData)
+    }
+  }
+
+  filterData = () => {
+    const {shared, surge, data} = this.state
+
+    if (shared && surge) {
+      this.setState({filteredData: data})
+    }else if (shared && !surge) {
+      const filteredData = data.filter(d => d.surge === false)
+      this.setState({filteredData})
+    }else if (!shared && surge) {
+      const filteredData = data.filter(d => d.shared === false)
+      this.setState({filteredData})
+    }else {
+      const filteredData = data.filter(d => d.shared === false && d.surge === false)
+      this.setState({filteredData})
+    }
+
+  }
+
   render() {
-    console.log(this.props)
-    const { column, data, direction } = this.state
+    console.log(this.state)
+    const { column, filteredData, direction, shared, surge } = this.state
     const {startAddress, endAddress} = localStorage
 
     return (
@@ -87,6 +118,16 @@ class ResultsView extends Component {
         <Divider horizontal></Divider>
         <Divider horizontal><h2>Results</h2></Divider>
         <Divider horizontal></Divider>
+        <div className="ui form" id="checkbox-div">
+          <div className="inline fields">
+            <div className="field">
+              <Checkbox defaultChecked id="shared" label='Shared' checked={shared} onChange={this.handleCheckBoxes}/>
+            </div>
+            <div className="field">
+              <Checkbox defaultChecked id="surge" label='Surge' checked={surge} onChange={this.handleCheckBoxes}/>
+            </div>
+          </div>
+        </div>
         <div className="ui horizontal segments">
           <Segment attached="left">
             {renderComponents.map.directionComponent()}
@@ -98,7 +139,7 @@ class ResultsView extends Component {
                   <Table.HeaderCell>
                     Service
                   </Table.HeaderCell>
-                  <Table.HeaderCell sorted={column === 'estimate' ? direction : null} onClick={this.handleSort('estimate')}>
+                  <Table.HeaderCell sorted={column === 'min' ? direction : null} onClick={this.handleSort('min')}>
                     Estimate ($)
                   </Table.HeaderCell>
                   <Table.HeaderCell sorted={column === 'eta' ? direction : null} onClick={this.handleSort('eta')}>
@@ -110,7 +151,7 @@ class ResultsView extends Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {_.map(data, ({ color, service, estimate, eta, duration }, i) => (
+                {_.map(filteredData, ({ color, service, min, max, estimate, eta, duration }, i) => (
                   <Table.Row key={i}>
                     <Table.Cell><Label color={color} ribbon>{service}</Label></Table.Cell>
                     <Table.Cell>{estimate}</Table.Cell>

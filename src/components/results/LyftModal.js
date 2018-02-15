@@ -31,7 +31,7 @@ const LyftModal = (props) => {
         <p>Cost Per Mile: {_.round(product.pricing_details.cost_per_mile/100,2)}</p>
         <p>Cost Per Minute: {_.round(product.pricing_details.cost_per_minute/100,2)}</p>
         <p>Cancellation Fee: {`$${_.round(product.pricing_details.cancel_penalty_amount/100,2)}`}</p>
-        <p>Estimate: {`$${Math.round(price.estimated_cost_cents_min/100)}`}</p>
+        <p>Estimate: {`$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_min/100)}`}</p>
       </Modal.Content>
 
       <Modal.Actions>

@@ -24,7 +24,7 @@ const UberModal = (props) => {
       </Modal.Content>
       <Modal.Content>
         <h2>Driver Info</h2>
-        <p>Earning: {`$${Math.round((price.low_estimate + price.high_estimate)*.75/2)}`}</p>
+        <p>Earning: {`$${Math.round(price.low_estimate*.75)}-${Math.round(price.high_estimate*.75)}`}</p>
         <p>Eta: {Math.round(eta.estimate/60)} minutes</p>
       </Modal.Content>
       <Modal.Content>
@@ -33,7 +33,7 @@ const UberModal = (props) => {
         <p>Cost Per Distance: {product.price_details.cost_per_distance}</p>
         <p>Cost Per Mile: {product.price_details.cost_per_minute}</p>
         <p>Cancellation Fee: {`$${product.price_details.cancellation_fee}`}</p>
-        <p>Estimate: {`$${Math.round((price.low_estimate + price.high_estimate)/2)}`}</p>
+        <p>Estimate: {price.estimate}</p>
       </Modal.Content>
 
       <Modal.Actions>

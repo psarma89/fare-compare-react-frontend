@@ -114,11 +114,15 @@ const formatUberPriceEstimates = (prices, products, etas) => {
     return {
       color: 'black',
       service: modal,
-      estimate: Math.round((price.low_estimate + price.high_estimate)/2),
+      name: "Uber",
+      min: Math.round(price.low_estimate),
+      max: Math.round(price.low_estimate),
+      shared: product.shared ? true : false,
+      surge: price.surge_multiplier > 1.0 ? true : false,
+      estimate: price.estimate,
       duration: Math.round(price.duration/60),
       eta: Math.round(eta.estimate/60),
       distance: price.distance,
-      driver: Math.round((price.low_estimate + price.high_estimate)*.75/2)
     }
   })
 }
@@ -160,11 +164,15 @@ const formatLyftPriceEstimates = (prices, products, etas) => {
     return {
       color: 'pink',
       service: modal,
-      estimate: Math.round(price.estimated_cost_cents_min/100),
+      name: "Lyft",
+      max: Math.round(price.estimated_cost_cents_max/100),
+      min: Math.round(price.estimated_cost_cents_min/100),
+      shared: product.ride_type === "lyft_line" ? true : false,
+      surge: price.primetime_percentage !== "0%" ? true : false,
+      estimate: `$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_min/100)}`,
       duration: Math.round(price.estimated_duration_seconds/60),
       eta: Math.round(eta.eta_seconds/60),
       distance: price.estimated_distance_miles,
-      driver: Math.round(price.estimated_cost_cents_min * .8/100)
     }
   })
 }
@@ -192,11 +200,15 @@ const formatTaxiPriceEstimates = (prices, products) => {
   return {
     color: 'yellow',
     service: modal,
-    estimate: Math.round(prices.total_fare - prices.tip_amount),
+    name: "Taxi",
+    min: Math.round(prices.total_fare - prices.tip_amount),
+    max: Math.round(prices.total_fare - prices.tip_amount),
+    estimate: `$${Math.round(prices.total_fare - prices.tip_amount)}`,
+    surge: false,
+    shared: false,
     duration: Math.round(prices.duration/60),
     eta: '--',
     distance: Math.round(prices.distance/1609.344),
-    driver: Math.round((prices.total_fare - prices.tip_amount)*.66)
   }
 }
 

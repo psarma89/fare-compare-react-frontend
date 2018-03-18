@@ -16,24 +16,24 @@ const UberModal = (props) => {
       <Header color='grey' icon={<Image src={product.image} />} content={price.display_name} as='h1'/>
       <Modal.Content>
         <h2>Ride Info</h2>
-        <p>Distance: {price.distance} miles</p>
-        <p>Duration: {Math.round(price.duration/60)} minutes</p>
+        <p>Distance: {price && price.distance ? `${price.distance} miles` : ''}</p>
+        <p>Duration: {price && price.duration ? `${Math.round(price.duration/60)} minutes` : ''}</p>
         <p>Shared: {product.shared ? "Yes" : "No"}</p>
-        <p>Capacity: {product.capacity}</p>
+        <p>Capacity: {product.capacity || ''}</p>
         <p>Surge: {price.surge_multiplier > 1.0 ? "Yes" : "No"}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Driver Info</h2>
-        <p>Earning: {`$${Math.round(price.low_estimate*.75)}-${Math.round(price.high_estimate*.75)}`}</p>
-        <p>Eta: {0} minutes</p>
+        <p>Earning: {price ? `$${Math.round(price.low_estimate*.75)}-${Math.round(price.high_estimate*.75)}` : ''}</p>
+        <p>Eta: {eta && eta.estimate ? `${Math.round(eta.estimate/60)} minutes` : ''}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>
-        <p>Base Fare: {product.price_details.base}</p>
-        <p>Cost Per Distance: {product.price_details.cost_per_distance}</p>
-        <p>Cost Per Mile: {product.price_details.cost_per_minute}</p>
-        <p>Cancellation Fee: {`$${product.price_details.cancellation_fee}`}</p>
-        <p>Estimate: {price.estimate}</p>
+        <p>Base Fare: {product ? product.price_details.base : ''}</p>
+        <p>Cost Per Distance: {product ? product.price_details.cost_per_distance : ''}</p>
+        <p>Cost Per Mile: {product ? product.price_details.cost_per_minute : ''}</p>
+        <p>Cancellation Fee: {product ? `$${product.price_details.cancellation_fee}` : ''}</p>
+        <p>Estimate: {price && price.estimate ? price.estimate : ''}</p>
       </Modal.Content>
 
       <Modal.Actions>

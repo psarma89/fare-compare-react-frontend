@@ -120,14 +120,14 @@ const formatUberPriceEstimates = (prices, products, etas) => {
       color: 'black',
       service: modal,
       name: "Uber",
-      min: Math.round(price.low_estimate),
-      max: Math.round(price.low_estimate),
-      shared: product.shared ? true : false,
-      surge: price.surge_multiplier > 1.0 ? true : false,
-      estimate: price.estimate,
-      duration: Math.round(price.duration/60),
-      eta: 0,
-      distance: price.distance,
+      min: price && price.low_estimate ? Math.round(price.low_estimate) : '',
+      max: price && price.high_estimate ? Math.round(price.high_estimate) : '',
+      shared: product && product.shared ? true : false,
+      surge: price && price.surge_multiplier > 1.0 ? true : false,
+      estimate: price && price.estimate ? price.estimate : '',
+      duration: price && price.duration ? Math.round(price.duration/60) : '',
+      eta: eta && eta.estimate ? Math.round(eta.estimate/60) : '',
+      distance: price && price.distance ? price.distance : '',
     }
   })
 }

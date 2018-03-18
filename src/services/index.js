@@ -106,12 +106,16 @@ const getUberProductData = (source) => {
 }
 
 const formatUberPriceEstimates = (prices, products, etas) => {
-  // console.log(prices, products)
 
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
+
     const eta = etas.find(eta => eta.display_name === price.display_name)
+
+    console.log(eta)
+
     const modal = <UberModal price={price} product={product} eta={eta}/>
+
     return {
       color: 'black',
       service: modal,
@@ -122,7 +126,7 @@ const formatUberPriceEstimates = (prices, products, etas) => {
       surge: price.surge_multiplier > 1.0 ? true : false,
       estimate: price.estimate,
       duration: Math.round(price.duration/60),
-      eta: Math.round(eta.estimate/60),
+      eta: 0,
       distance: price.distance,
     }
   })
@@ -199,21 +203,21 @@ const getTaxiBusinessData = (source) => {
 }
 
 const formatTaxiPriceEstimates = (prices, products) => {
-  // console.log(products)
+  // console.log(prices, products)
 
-  const modal = <TaxiModal price={prices} product={products} eta={'--'}/>
+  const modal = <TaxiModal price={prices} product={products} eta={''}/>
   return {
     color: 'yellow',
     service: modal,
     name: "Taxi",
     min: Math.round(prices.total_fare - prices.tip_amount),
     max: Math.round(prices.total_fare - prices.tip_amount),
-    estimate: `$${Math.round(prices.total_fare - prices.tip_amount)}`,
+    estimate: Math.round(prices.total_fare - prices.tip_amount) ?  `$${Math.round(prices.total_fare - prices.tip_amount)}` : '',
     surge: false,
     shared: false,
-    duration: Math.round(prices.duration/60),
-    eta: '--',
-    distance: Math.round(prices.distance/1609.344),
+    duration: Math.round(prices.duration/60) || '',
+    eta: '',
+    distance: Math.round(prices.distance/1609.344) || '',
   }
 }
 

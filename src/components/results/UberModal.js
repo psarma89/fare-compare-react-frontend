@@ -25,7 +25,7 @@ const UberModal = (props) => {
       <Modal.Content>
         <h2>Driver Info</h2>
         <p>Earning: {`$${Math.round(price.low_estimate*.75)}-${Math.round(price.high_estimate*.75)}`}</p>
-        <p>Eta: {Math.round(eta.estimate/60)} minutes</p>
+        <p>Eta: {0} minutes</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>

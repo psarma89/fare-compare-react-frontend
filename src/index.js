@@ -25,4 +25,6 @@ const Root = ({ store }) => {
   );
 };
 
-ReactDOM.render(<Root store={store} />, document.getElementById('root'));
+ReactDOM.render(
+  <Root store={store} />, document.getElementById('root')
+);

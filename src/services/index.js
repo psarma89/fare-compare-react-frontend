@@ -5,7 +5,7 @@ import TaxiModal from '../components/results/TaxiModal';
 
 const API_ROOT = `http://localhost:3000/api/v1`;
 const UBER_ROOT = `https://api.uber.com/v1.2`;
-const LYFT_ROOT = `https://api.lyft.com/v1`;
+const LYFT_ROOT = `http://localhost:3000/api/v1`;
 const TAXI_ROOT = `http://localhost:3000/api/v1`;
 
 const headers = {
@@ -20,7 +20,8 @@ const uberHeaders = {
 };
 
 const lyftHeaders = {
-  'Authorization': 'Bearer 6lKymAETJscXPbFbID9+vU32drXfImUyHOkJIUgl/lTzLRg0f0sBk21mQ1oaQYhs/sxjdUqi2d+SG7j2NVtxuT20x6VgvYYe2oW5X9TuzpuWYTtVm1orGRs=',
+  'Authorization': localStorage.getItem('token'),
+  'Accepts': 'application/json',
   'Content-Type': 'application/json'
 };
 
@@ -128,30 +129,34 @@ const formatUberPriceEstimates = (prices, products, etas) => {
 }
 
 const getNearestLyftEta = (source) => {
-  return fetch(`${LYFT_ROOT}/eta?lat=${source.lat}&lng=${source.lng}`, {
-    method: 'GET',
-    headers: lyftHeaders
+  return fetch(`${LYFT_ROOT}/lyft_estimate`, {
+    method: 'POST',
+    headers: lyftHeaders,
+    body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
 const getNearestLyftLocations = (source) => {
-  return fetch(`${LYFT_ROOT}/nearby-drivers-pickup-etas?lat=${source.lat}&lng=${source.lng}`, {
-    method: 'GET',
-    headers: lyftHeaders
+  return fetch(`${LYFT_ROOT}/lyft_location`, {
+    method: 'POST',
+    headers: lyftHeaders,
+    body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
 const getLyftPriceData = (source, destination) => {
-  return fetch(`${LYFT_ROOT}/cost?start_lat=${source.lat}&start_lng=${source.lng}&end_lat=${destination.lat}&end_lng=${destination.lng}`, {
-    method: 'GET',
-    headers: lyftHeaders
+  return fetch(`${LYFT_ROOT}/lyft_fare`, {
+    method: 'POST',
+    headers: lyftHeaders,
+    body: JSON.stringify({source, destination})
   }).then(res => res.json());
 }
 
 const getLyftProductData = (source) => {
-  return fetch(`${LYFT_ROOT}/ridetypes?lat=${source.lat}&lng=${source.lng}`, {
-    method: 'GET',
-    headers: lyftHeaders
+  return fetch(`${LYFT_ROOT}/lyft_product`, {
+    method: 'POST',
+    headers: lyftHeaders,
+    body: JSON.stringify({source})
   }).then(res => res.json());
 }
 

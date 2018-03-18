@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 
+//Don't have a massive initial state, we can shift this to each reducer, so we don't duplicate info
 const initialState = { currentUser: {}, currentLocation: {lat: 40.7654941,lng: -73.9838659, address: ''}, savedAddresses: [], search: {startAddress: '', source: '', endAddress: '', destination: '', error: ''}, etas: {uberEtaDisplay: '', lyftEtaDisplay: '', nearbyLyftCoords: ''}, results: {uberPrices: '', uberProducts: '', lyftPrices: '', lyftProducts: '', taxiPrices: '', taxiProducts: ''}};
 
+//here try out state ={}
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_CURRENT_USER':

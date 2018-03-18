@@ -171,6 +171,7 @@ export const getRidePriceEstimates = (source, destination) => dispatch => {
   const {getTaxiPriceData, getTaxiBusinessData} = adapter.taxi
 
   Promise.all([getUberPriceData(source, destination), getUberProductData(source), getNearestUberEta(source), getLyftPriceData(source, destination), getLyftProductData(source), getNearestLyftEta(source), getTaxiPriceData(source,destination), getTaxiBusinessData(source)]).then(values => {
+    // console.log(values)
     const uberPrices = values[0] || [];
     const uberProducts = values[1] || [];
     const lyftPrices = values[3] || [];

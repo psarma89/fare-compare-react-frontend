@@ -1,11 +1,11 @@
 import _ from 'lodash'
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 import { adapter } from '../../services';
 import { Table, Checkbox, Label, Segment, Divider } from 'semantic-ui-react';
-import {renderComponents} from '../../services/renderComponents';
+import { renderComponents } from '../../services/renderComponents';
 
 class ResultsView extends Component {
   constructor(props) {
@@ -103,7 +103,7 @@ class ResultsView extends Component {
   }
 
   render() {
-    console.log(this.state)
+
     const { column, filteredData, direction, shared, surge } = this.state
     const {startAddress, endAddress} = localStorage
 

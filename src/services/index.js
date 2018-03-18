@@ -112,8 +112,6 @@ const formatUberPriceEstimates = (prices, products, etas) => {
 
     const eta = etas.find(eta => eta.display_name === price.display_name)
 
-    console.log(eta)
-
     const modal = <UberModal price={price} product={product} eta={eta}/>
 
     return {
@@ -168,20 +166,23 @@ const formatLyftPriceEstimates = (prices, products, etas) => {
   // console.log(prices, products)
   return prices.map(price => {
     const product = products.find(product => product.display_name === price.display_name)
+
     const eta = etas.find(eta => eta.display_name === price.display_name)
+
     const modal = <LyftModal price={price} product={product} eta={eta}/>
+
     return {
       color: 'pink',
       service: modal,
       name: "Lyft",
-      max: Math.round(price.estimated_cost_cents_max/100),
-      min: Math.round(price.estimated_cost_cents_min/100),
-      shared: product.ride_type === "lyft_line" ? true : false,
-      surge: price.primetime_percentage !== "0%" ? true : false,
-      estimate: `$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_min/100)}`,
-      duration: Math.round(price.estimated_duration_seconds/60),
-      eta: Math.round(eta.eta_seconds/60),
-      distance: price.estimated_distance_miles,
+      max: price && price.estimated_cost_cents_max ? Math.round(price.estimated_cost_cents_max/100) : '',
+      min: price && price.estimated_cost_cents_min ? Math.round(price.estimated_cost_cents_min/100) : '',
+      shared: product && product.ride_type === "lyft_line" ? true : false,
+      surge: price && price.primetime_percentage !== "0%" ? true : false,
+      estimate: price ?  `$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_max/100)}` : '',
+      duration: price && price.estimated_duration_seconds ? Math.round(price.estimated_duration_seconds/60) : '',
+      eta: eta && eta.eta_seconds ? Math.round(eta.eta_seconds/60) : '',
+      distance: price && price.estimated_distance_miles ? price.estimated_distance_miles : '',
     }
   })
 }

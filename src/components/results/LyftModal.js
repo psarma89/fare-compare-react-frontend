@@ -14,24 +14,24 @@ const LyftModal = (props) => {
 
       <Modal.Content>
         <h2>Ride Info</h2>
-        <p>Distance: {price.estimated_distance_miles} miles</p>
-        <p>Duration: {_.round(price.estimated_duration_seconds/60)} minutes</p>
-        <p>Shared: {product.ride_type === "lyft_line" ? "Yes" : "No"}</p>
-        <p>Capacity: {product.seats}</p>
-        <p>Surge: {price.primetime_percentage !== "0%" ? `Y, ${price.primetime_percentage}` : "N"}</p>
+        <p>Distance: {price && price.estimated_distance_miles ? `${price.estimated_distance_miles} miles` : ''}</p>
+        <p>Duration: {price && price.estimated_duration_seconds ? `${_.round(price.estimated_duration_seconds/60)} minutes`: ''}</p>
+        <p>Shared: {product && product.ride_type === "lyft_line" ? "Yes" : "No"}</p>
+        <p>Capacity: {product && product.seats ? product.seats : ''}</p>
+        <p>Surge: {price && price.primetime_percentage !== "0%" ? `Y, ${price.primetime_percentage}` : "N"}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Driver Info</h2>
-        <p>Earning: {`$${Math.round(price.estimated_cost_cents_min*.8/100)}`}</p>
-        <p>Eta: {Math.round(eta.eta_seconds/60)} minutes</p>
+        <p>Earning: {price ? `$${Math.round(price.estimated_cost_cents_min*.8/100)}` : ''}</p>
+        <p>Eta: {eta && eta.eta_seconds ? `${Math.round(eta.eta_seconds/60)} minutes` : ''}</p>
       </Modal.Content>
       <Modal.Content>
         <h2>Fare Info</h2>
-        <p>Base Fare: {_.round(product.pricing_details.base_charge/100, 2)}</p>
-        <p>Cost Per Mile: {_.round(product.pricing_details.cost_per_mile/100,2)}</p>
-        <p>Cost Per Minute: {_.round(product.pricing_details.cost_per_minute/100,2)}</p>
-        <p>Cancellation Fee: {`$${_.round(product.pricing_details.cancel_penalty_amount/100,2)}`}</p>
-        <p>Estimate: {`$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_min/100)}`}</p>
+        <p>Base Fare: {product ? _.round(product.pricing_details.base_charge/100, 2) : ''}</p>
+        <p>Cost Per Mile: {product ? _.round(product.pricing_details.cost_per_mile/100,2) : ''}</p>
+        <p>Cost Per Minute: {product ? _.round(product.pricing_details.cost_per_minute/100,2) : ''}</p>
+        <p>Cancellation Fee: {product ? `$${_.round(product.pricing_details.cancel_penalty_amount/100,2)}` : ''}</p>
+        <p>Estimate: {price ? `$${Math.round(price.estimated_cost_cents_min/100)}-${Math.round(price.estimated_cost_cents_min/100)}` : ''}</p>
       </Modal.Content>
 
       <Modal.Actions>

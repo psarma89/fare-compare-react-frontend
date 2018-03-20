@@ -24,9 +24,6 @@ class Map extends Component{
     this.props.getNearestRidesInfo(nextProps.location)
   }
 
-  componentWillUnmount() {
-  }
-
   onBoxToggleOpen = () => {
     this.setState({isBoxOpen: !this.state.isBoxOpen})
   }

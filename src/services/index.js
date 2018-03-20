@@ -5,15 +5,15 @@ import TaxiModal from '../components/results/TaxiModal';
 
 const API_ROOT = 'http://localhost:3000/api/v1';
 
-const headers = {
+const headers = () => ({
   'Authorization': localStorage.getItem('token'),
   'Accepts': 'application/json',
   'Content-Type': 'application/json'
-};
+});
 
 const getWithToken = url => {
   return fetch(url, {
-    headers
+    headers: headers()
   }).then(res => res.json());
 };
 
@@ -24,7 +24,7 @@ const getCurrentUser = () => {
 const login = data => {
   return fetch(`${API_ROOT}/auth`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify(data)
   }).then(res => res.json());
 };
@@ -32,7 +32,7 @@ const login = data => {
 const update = data => {
   return fetch(`${API_ROOT}/users`, {
     method: 'PATCH',
-    headers,
+    headers: headers(),
     body: JSON.stringify(data)
   }).then(res => res.json());
 };
@@ -40,7 +40,7 @@ const update = data => {
 const signup = data => {
   return fetch(`${API_ROOT}/users`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify(data)
   }).then(res => res.json());
 };
@@ -48,7 +48,7 @@ const signup = data => {
 const postSearch = data => {
   return fetch(`${API_ROOT}/searches`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify(data)
   }).then(res => res.json());
 };
@@ -56,14 +56,14 @@ const postSearch = data => {
 const getSearches = () => {
   return fetch(`${API_ROOT}/searches`, {
     method: 'GET',
-    headers
+    headers: headers()
   }).then(res => res.json());
 };
 
 const getNearestUberEta = (source) => {
   return fetch(`${API_ROOT}/uber_location`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -71,7 +71,7 @@ const getNearestUberEta = (source) => {
 const getUberPriceData = (source, destination) => {
   return fetch(`${API_ROOT}/uber_estimate`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source, destination})
   }).then(res => res.json());
 }
@@ -79,7 +79,7 @@ const getUberPriceData = (source, destination) => {
 const getUberProductData = (source) => {
   return fetch(`${API_ROOT}/uber_product`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -112,7 +112,7 @@ const formatUberPriceEstimates = (prices, products, etas) => {
 const getNearestLyftEta = (source) => {
   return fetch(`${API_ROOT}/lyft_estimate`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -120,7 +120,7 @@ const getNearestLyftEta = (source) => {
 const getNearestLyftLocations = (source) => {
   return fetch(`${API_ROOT}/lyft_location`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -128,7 +128,7 @@ const getNearestLyftLocations = (source) => {
 const getLyftPriceData = (source, destination) => {
   return fetch(`${API_ROOT}/lyft_fare`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source, destination})
   }).then(res => res.json());
 }
@@ -136,7 +136,7 @@ const getLyftPriceData = (source, destination) => {
 const getLyftProductData = (source) => {
   return fetch(`${API_ROOT}/lyft_product`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -169,7 +169,7 @@ const formatLyftPriceEstimates = (prices, products, etas) => {
 const getTaxiPriceData = (source, destination) => {
   return fetch(`${API_ROOT}/taxi_fare`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source, destination})
   }).then(resp => resp.json());
 }
@@ -177,7 +177,7 @@ const getTaxiPriceData = (source, destination) => {
 const getTaxiBusinessData = (source) => {
   return fetch(`${API_ROOT}/businesses`, {
     method: 'POST',
-    headers,
+    headers: headers(),
     body: JSON.stringify({source})
   }).then(resp => resp.json());
 }

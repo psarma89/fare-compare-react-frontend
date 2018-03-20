@@ -24,8 +24,16 @@ class Results extends Component{
 
     return(
       <div>
-        <TopMenu toggleVisibility={this.toggleVisibility} />
-        <SideBar visible={visible} component={<ResultsView />} logoutUser={this.props.logoutUser}/>
+        <TopMenu
+          toggleVisibility={this.toggleVisibility}
+        >
+        </TopMenu>
+        <SideBar
+          visible={visible}
+          logoutUser={this.props.logoutUser}
+        >
+          <ResultsView />
+        </SideBar>
       </div>
     )
   }

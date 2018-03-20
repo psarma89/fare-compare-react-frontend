@@ -32,7 +32,7 @@ export const getLocation = (loc) => dispatch => {
   }
 };
 
-export const fetchUser = () => dispatch => {
+export const fetchUser = (token) => dispatch => {
   dispatch({ type: 'ASYNC_START' });
 
   adapter.auth.getCurrentUser().then(user => {

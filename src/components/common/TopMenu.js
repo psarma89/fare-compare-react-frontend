@@ -10,7 +10,7 @@ const TopMenu = (props) => {
       >
         <Icon name='sidebar' />
       </Menu.Item>
-      {props.children.menuSearch}
+      {props.children}
     </Menu>
 
   )

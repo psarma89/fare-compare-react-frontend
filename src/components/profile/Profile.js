@@ -16,6 +16,7 @@ class Profile extends Component {
   render() {
     // console.log(this.props)
     const { visible } = this.state
+    const map = renderComponents.map.mapComponent()
 
     return (
 
@@ -29,16 +30,11 @@ class Profile extends Component {
           visible={visible}
           logoutUser={this.props.logoutUser}
         >
-          {renderComponents.map.mapComponent()}
+          {map}
         </SideBar>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  lyftGeoCoords: state.inf.etas.nearbyLyftCoords
-});
-
-
-export default withAuth(withRouter(connect(mapStateToProps, actions)(Profile)));
+export default withAuth(withRouter(connect(null, actions)(Profile)));

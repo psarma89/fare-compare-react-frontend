@@ -3,7 +3,6 @@ import { Sidebar, Segment, Menu, Icon} from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 const SideBar = (props) => {
-  console.log(props)
   return(
     <Sidebar.Pushable as={Segment} id="ui-segment-pushable">
       <Sidebar as={Menu} animation='slide out' width='thin' visible={props.visible} icon='labeled' vertical inverted>

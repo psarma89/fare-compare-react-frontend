@@ -23,8 +23,16 @@ class FullSearch extends Component{
 
     return(
       <div>
-        <TopMenu toggleVisibility={this.toggleVisibility} />
-        <SideBar visible={visible} component={<SearchForm />} logoutUser={this.props.logoutUser}/>
+        <TopMenu
+          toggleVisibility={this.toggleVisibility}
+        >
+        </TopMenu>
+        <SideBar
+          visible={visible}
+          logoutUser={this.props.logoutUser}
+        >
+          <SearchForm />
+        </SideBar>
       </div>
     )
   }

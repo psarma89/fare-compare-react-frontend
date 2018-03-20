@@ -3,38 +3,17 @@ import UberModal from '../components/results/UberModal';
 import LyftModal from '../components/results/LyftModal';
 import TaxiModal from '../components/results/TaxiModal';
 
-const API_ROOT = `http://localhost:3000/api/v1`;
-const UBER_ROOT = `https://api.uber.com/v1.2`;
-const LYFT_ROOT = `http://localhost:3000/api/v1`;
-const TAXI_ROOT = `http://localhost:3000/api/v1`;
+const API_ROOT = 'http://localhost:3000/api/v1';
 
 const headers = {
-  'Content-Type': 'application/json',
-  'Accepts': 'application/json'
-};
-
-const uberHeaders = {
-  'Authorization': 'Token tCPHcqEtRrruUOc5VZMFT7BVOafEu2W_dYyM2akV',
-  'Accept-Language': 'en_US',
-  'Content-Type': 'application/json'
-};
-
-const lyftHeaders = {
-  'Authorization': localStorage.getItem('token'),
-  'Accepts': 'application/json',
-  'Content-Type': 'application/json'
-};
-
-const taxiHeaders = {
   'Authorization': localStorage.getItem('token'),
   'Accepts': 'application/json',
   'Content-Type': 'application/json'
 };
 
 const getWithToken = url => {
-  const token = localStorage.getItem('token');
   return fetch(url, {
-    headers: { Authorization: token }
+    headers
   }).then(res => res.json());
 };
 
@@ -67,41 +46,41 @@ const signup = data => {
 };
 
 const postSearch = data => {
-  const token = localStorage.getItem('token');
   return fetch(`${API_ROOT}/searches`, {
     method: 'POST',
-    headers: { Authorization: token, 'Content-Type': 'application/json',
-    'Accepts': 'application/json'},
+    headers,
     body: JSON.stringify(data)
   }).then(res => res.json());
 };
 
 const getSearches = () => {
-  const token = localStorage.getItem('token');
   return fetch(`${API_ROOT}/searches`, {
     method: 'GET',
-    headers: { Authorization: token },
+    headers
   }).then(res => res.json());
 };
 
 const getNearestUberEta = (source) => {
-  return fetch(`${UBER_ROOT}/estimates/time?start_latitude=${source.lat}&start_longitude=${source.lng}`, {
-    method: 'GET',
-    headers: uberHeaders
+  return fetch(`${API_ROOT}/uber_location`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
 const getUberPriceData = (source, destination) => {
-  return fetch(`${UBER_ROOT}/estimates/price?start_latitude=${source.lat}&start_longitude=${source.lng}&end_latitude=${destination.lat}&end_longitude=${destination.lng}`, {
-    method: 'GET',
-    headers: uberHeaders
+  return fetch(`${API_ROOT}/uber_estimate`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({source, destination})
   }).then(res => res.json());
 }
 
 const getUberProductData = (source) => {
-  return fetch(`${UBER_ROOT}/products?latitude=${source.lat}&longitude=${source.lng}`, {
-    method: 'GET',
-    headers: uberHeaders
+  return fetch(`${API_ROOT}/uber_product`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
@@ -131,33 +110,33 @@ const formatUberPriceEstimates = (prices, products, etas) => {
 }
 
 const getNearestLyftEta = (source) => {
-  return fetch(`${LYFT_ROOT}/lyft_estimate`, {
+  return fetch(`${API_ROOT}/lyft_estimate`, {
     method: 'POST',
-    headers: lyftHeaders,
+    headers,
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
 const getNearestLyftLocations = (source) => {
-  return fetch(`${LYFT_ROOT}/lyft_location`, {
+  return fetch(`${API_ROOT}/lyft_location`, {
     method: 'POST',
-    headers: lyftHeaders,
+    headers,
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
 
 const getLyftPriceData = (source, destination) => {
-  return fetch(`${LYFT_ROOT}/lyft_fare`, {
+  return fetch(`${API_ROOT}/lyft_fare`, {
     method: 'POST',
-    headers: lyftHeaders,
+    headers,
     body: JSON.stringify({source, destination})
   }).then(res => res.json());
 }
 
 const getLyftProductData = (source) => {
-  return fetch(`${LYFT_ROOT}/lyft_product`, {
+  return fetch(`${API_ROOT}/lyft_product`, {
     method: 'POST',
-    headers: lyftHeaders,
+    headers,
     body: JSON.stringify({source})
   }).then(res => res.json());
 }
@@ -188,17 +167,17 @@ const formatLyftPriceEstimates = (prices, products, etas) => {
 }
 
 const getTaxiPriceData = (source, destination) => {
-  return fetch(`${TAXI_ROOT}/taxi_fare`, {
+  return fetch(`${API_ROOT}/taxi_fare`, {
     method: 'POST',
-    headers: taxiHeaders,
+    headers,
     body: JSON.stringify({source, destination})
   }).then(resp => resp.json());
 }
 
 const getTaxiBusinessData = (source) => {
-  return fetch(`${TAXI_ROOT}/businesses`, {
+  return fetch(`${API_ROOT}/businesses`, {
     method: 'POST',
-    headers: taxiHeaders,
+    headers,
     body: JSON.stringify({source})
   }).then(resp => resp.json());
 }
